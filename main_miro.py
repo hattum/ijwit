@@ -17,10 +17,14 @@ def main():
 
     amino_string = "HHPHHHPH"
 
+    graph = [["" for i in range(len(amino_string))] for i in range(len(amino_string))]
+
+    #graph = []
+
     for ch in amino_string:
         amino_q.enqueue(ch)
 
-    current_pos = (0,0)
+    current_pos = (3,3)
 
     amino_poss.append(current_pos)
     current_amino = amino_q.dequeue()
@@ -56,7 +60,31 @@ def main():
         print(nb, ":" , neighbours[nb])
             
 
-    
+    # for pos in amino_poss:
+    #     print(f"Pos is {pos[0]}, {pos[1]}")
+    #     graph[pos[0]][pos[1]] = "*"
+
+    for j, element in enumerate(zip(amino_poss, list(amino_string))):
+        #print(element) #wordt als tuple geprint
+        #print(element[0], element[1])
+        #graph[element[0][0]][element[1][1]] = element[1]
+        #graph[element[0][0]][element[0][1]] = "*"
+        
+        i = element[0]
+        print("Hallo")
+        print(j)
+        print(i)
+        print(element[0][0], element[0][1])
+        graph[i[0]][i[1]] = element[1]+str(j)
+        
+
+    # for pos in amino_poss, pos in range(len(amino_string)):
+    #     print(f"Pos is {pos[0]}, {pos[1]}")
+    #     graph[element[0][0]][element[0][1]] = elemnt[1]
+
+    for row in graph:
+         print(row)
+
 
 if __name__ == "__main__":
     main()

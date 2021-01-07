@@ -1,4 +1,4 @@
-from helpers import offsets
+from helpers_miro import offsets
 from queue_miro import Queue
 #import random
 import itertools

@@ -23,13 +23,12 @@ def main():
     current_pos = (0,0)
 
     amino_poss.append(current_pos)
+    current_amino = amino_q.dequeue()
 
     neighbours[current_pos] = None
     
     while not amino_q.is_empty():
-
         current_amino = amino_q.dequeue()
-        #print(current_amino, "-", end = "")
         direction = next(directions_cycle)
         neighbour = (current_pos[0] + offsets[direction][0], 
                     current_pos[1] + offsets[direction][1])
@@ -37,10 +36,17 @@ def main():
             neighbours[neighbour] = current_pos
             current_pos = neighbour
             amino_poss.append(current_pos)
-            print("\n New_Pos is: ", current_pos)
         
-        #if neighbour in neighbours:
-            #direction = next(directions_cycle)
+        elif neighbour in neighbours:
+            while neighbour in neighbours:
+                direction = next(directions_cycle)
+                neighbour = (current_pos[0] + offsets[direction][0], 
+                            current_pos[1] + offsets[direction][1])
+        
+            neighbours[neighbour] = current_pos
+            current_pos = neighbour
+            amino_poss.append(current_pos)
+            print("Hoi")
 
     print("\n Amino_posities")
     print(amino_poss)

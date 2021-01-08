@@ -1,6 +1,5 @@
 from helpers_miro import offsets
 from queue_miro import Queue
-#import random
 import itertools
 
 def main():
@@ -17,10 +16,12 @@ def main():
 
     amino_string = "HHPHHHPH"
 
+    graph = [["  " for i in range(len(amino_string))] for i in range(len(amino_string))]
+
     for ch in amino_string:
         amino_q.enqueue(ch)
 
-    current_pos = (0,0)
+    current_pos = (int(len(amino_string)/2) - 1,int(len(amino_string)/2) - 1)
 
     amino_poss.append(current_pos)
     current_amino = amino_q.dequeue()
@@ -46,17 +47,25 @@ def main():
             neighbours[neighbour] = current_pos
             current_pos = neighbour
             amino_poss.append(current_pos)
-            print("Hoi")
+            #print("Hoi")
 
-    print("\n Amino_posities")
+    print("\nAmino_posities:")
     print(amino_poss)
     print()
     print("Current: Voorganger")
+
     for nb in neighbours:
         print(nb, ":" , neighbours[nb])
             
+    for j, element in enumerate(zip(amino_poss, list(amino_string))):
+        i = element[0]
+        graph[i[0]][i[1]] = element[1]+str(j)
+        
+    print()
+    print("Representatie:")
 
-    
+    for row in graph:
+         print(row)
 
 if __name__ == "__main__":
     main()

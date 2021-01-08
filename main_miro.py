@@ -17,7 +17,7 @@ def main():
 
     amino_string = "HHPHHHPH"
 
-    graph = [["" for i in range(len(amino_string))] for i in range(len(amino_string))]
+    graph = [["  " for i in range(len(amino_string))] for i in range(len(amino_string))]
 
     #graph = []
 

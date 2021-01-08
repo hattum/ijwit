@@ -19,8 +19,6 @@ def main():
 
     graph = [["  " for i in range(len(amino_string))] for i in range(len(amino_string))]
 
-    #graph = []
-
     for ch in amino_string:
         amino_q.enqueue(ch)
 
@@ -52,7 +50,7 @@ def main():
             amino_poss.append(current_pos)
             print("Hoi")
 
-    print("\n Amino_posities")
+    print("\nAmino_posities:")
     print(amino_poss)
     print()
     print("Current: Voorganger")
@@ -71,16 +69,16 @@ def main():
         #graph[element[0][0]][element[0][1]] = "*"
         
         i = element[0]
-        print("Hallo")
-        print(j)
-        print(i)
-        print(element[0][0], element[0][1])
+        # print("Hallo")
+        # print(j)
+        # print(i)
+        # print(element[0][0], element[0][1])
         graph[i[0]][i[1]] = element[1]+str(j)
         
 
-    # for pos in amino_poss, pos in range(len(amino_string)):
-    #     print(f"Pos is {pos[0]}, {pos[1]}")
-    #     graph[element[0][0]][element[0][1]] = elemnt[1]
+    print()
+    print("Representatie:")
+    print()
 
     for row in graph:
          print(row)

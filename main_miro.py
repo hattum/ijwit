@@ -21,7 +21,7 @@ def main():
     for ch in amino_string:
         amino_q.enqueue(ch)
 
-    current_pos = (3,3)
+    current_pos = (int(len(amino_string)/2) - 1,int(len(amino_string)/2) - 1)
 
     amino_poss.append(current_pos)
     current_amino = amino_q.dequeue()

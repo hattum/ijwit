@@ -2,21 +2,18 @@
 </help_text><element><id>UMLClass</id><coordinates><x>450</x><y>180</y><w>210</w><h>150</h></coordinates><panel_attributes>Protein
 --
 name: String
-protein_string: String
 length: Int
 id: Int
 --
-methods?</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>50</x><y>390</y><w>210</w><h>110</h></coordinates><panel_attributes>Point scheme
+starting_point: Tuple
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>450</x><y>420</y><w>210</w><h>110</h></coordinates><panel_attributes>Point scheme
 --
-
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>780</x><y>180</y><w>210</w><h>110</h></coordinates><panel_attributes>Amino Acids
---
-type: String
-id: Int
-
+point_count: Int
 --</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>50</x><y>180</y><w>210</w><h>110</h></coordinates><panel_attributes>2D Grid
 --
-
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>650</x><y>230</y><w>150</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
-m1=0..n</panel_attributes><additional_attributes>10;10;130;10</additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>230</y><w>220</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
+dimension: Int
+--
+make_grid(self):  [ [ ] ]
+plot(self): Tuple
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>250</x><y>230</y><w>220</w><h>40</h></coordinates><panel_attributes>lt=&lt;-
 m1=0..n</panel_attributes><additional_attributes>10;10;200;10</additional_attributes></element></diagram>

@@ -7,11 +7,11 @@ class Grid:
         self.currentPlace = (size,size)
         self.totalMoves = 0
 
-    def printGrid(self,printForm):
+    def printGrid(self):
         for row in self.content:
             print_list = []
             for tuble in row:
-                print_list.append(tuble[printForm])
+                print_list.append(str(tuble[0])+tuble[1])
             print(print_list)
         print()
 
@@ -70,5 +70,5 @@ while protein.length > 0:
     grid.performMove(random.choice(moves),letter)
 
 
-grid.printGrid(1)
+grid.printGrid()
 print(grid.score())

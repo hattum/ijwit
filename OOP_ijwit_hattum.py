@@ -1,4 +1,5 @@
 import random
+from copy import deepcopy
 
 class Grid:
     def  __init__(self, size):
@@ -6,12 +7,13 @@ class Grid:
         self.content = [ [ (-1,'_') for i in range(actualgridsize) ] for j in range(actualgridsize) ]
         self.currentPlace = (size,size)
         self.totalMoves = 0
+        
 
-    def printGrid(self,printForm):
+    def printGrid(self):
         for row in self.content:
             print_list = []
             for tuble in row:
-                print_list.append(tuble[printForm])
+                print_list.append(str(tuble[0])+tuble[1])
             print(print_list)
         print()
 
@@ -47,7 +49,7 @@ class Grid:
         self.content[move[0]][move[1]] = (self.totalMoves, letter)
         self.currentPlace = (move[0], move[1])
         self.totalMoves = self.totalMoves + 1
-        return
+        
 
 
 class Protein:
@@ -62,13 +64,65 @@ class Protein:
         return letter
         
 
-protein = Protein("HHPHHHPH")
+protein = Protein("HPHPPHHPHPPHPHHPPHPH")
 grid = Grid(protein.length)
+grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
+# while protein.length > 0:
+#     moves = grid.checkPossibleMoves()
+#     letter = protein.pop_first_char()
+#     grid.performMove(random.choice(moves),letter)
+
+
+minimalScore = 0
+minimalGrid = None
+minimalPerformedMove = None
+
+
+def recursion(grid, protein, depth, firstMove):
+    """This is a recursive function
+    to find all possible folds"""
+    global minimalScore, minimalGrid, minimalPerformedMove
+    if depth == 7 or protein.length == 0:
+        depth = 0
+        S = grid.score()
+        # print("score = "+ str(S)+ "minimal= "+ str(minimalScore))
+        if S <= minimalScore and (len(grid.checkPossibleMoves()) > 0 or protein.length == 0):
+            minimalScore = S
+            minimalGrid = grid
+            minimalPerformedMove = firstMove
+            # print(minimalScore)
+            # grid.printGrid()
+         
+    else:
+        moves = grid.checkPossibleMoves()
+        
+        for move in moves:
+
+            gridCopy = deepcopy(grid)
+            proteinCopy = deepcopy(protein)
+            letter = proteinCopy.pop_first_char()
+            gridCopy.performMove(move,letter)
+            if depth == 0:
+                recursion(gridCopy,proteinCopy,depth+1, move)
+            else:
+                recursion(gridCopy,proteinCopy,depth+1, firstMove)
+
+        
 while protein.length > 0:
-    moves = grid.checkPossibleMoves()
-    letter = protein.pop_first_char()
-    grid.performMove(random.choice(moves),letter)
+
+    recursion(grid,protein,0,None)
+    
+    
+    grid.performMove(minimalPerformedMove, protein.pop_first_char())
+    minimalPerformedMove = None
+    
+
+    print(protein.length)
 
 
-grid.printGrid(1)
 print(grid.score())
+grid.printGrid()
+   
+    
+
+

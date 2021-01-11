@@ -23,11 +23,11 @@ minimalGrid = None
 
 
 
-def printGrid(grid,printForm):
+def printGrid(grid):
     for row in grid:
         print_list = []
         for tuble in row:
-            print_list.append(tuble[printForm])
+            print_list.append(str(tuble[0])+tuble[1])
         print(print_list)
     print()
     
@@ -67,7 +67,7 @@ def recursion(grid, currentPlace, totalMoves):
     """This is a recursive function
     to find all possible folds"""
 
-    #printGrid(grid)
+ 
     if totalMoves == len(eiwit):
         global minimalScore, minimalGrid
         S = score(grid)
@@ -75,8 +75,8 @@ def recursion(grid, currentPlace, totalMoves):
             minimalScore = S
             minimalGrid = grid
             print(minimalScore)
-            printGrid(grid,0)
-            printGrid(grid,1)
+            printGrid(grid)
+
         
     else:
         moves = checkPossibleMoves(grid,currentPlace)
@@ -90,8 +90,7 @@ def recursion(grid, currentPlace, totalMoves):
 recursion(grid,currentPlace,totalMoves)
 
 
-print("Print route")
-printGrid(minimalGrid,0)
-print("Print form")
-printGrid(minimalGrid,1)
+print("Print minimal grid")
+printGrid(minimalGrid)
+
 print(minimalScore)

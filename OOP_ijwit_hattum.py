@@ -63,9 +63,10 @@ class Protein:
         self.length = len(self.code)
         return letter
         
-
+moveList = []
 protein = Protein("HPHPPHHPHPPHPHHPPHPH")
 grid = Grid(protein.length)
+moveList.append(grid.checkPossibleMoves()[0])
 grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
 # while protein.length > 0:
 #     moves = grid.checkPossibleMoves()
@@ -76,13 +77,20 @@ grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
 minimalScore = 0
 minimalGrid = None
 minimalPerformedMove = None
+recursionAmount = 0
 
 
 def recursion(grid, protein, depth, firstMove):
     """This is a recursive function
     to find all possible folds"""
-    global minimalScore, minimalGrid, minimalPerformedMove
-    if depth == 7 or protein.length == 0:
+
+    global minimalScore, minimalGrid, minimalPerformedMove, recursionAmount
+    
+    if (recursionAmount % 10000 )== 0:
+        print(recursionAmount)
+    recursionAmount = recursionAmount+1
+
+    if depth == 4 or protein.length == 0:
         depth = 0
         S = grid.score()
         # print("score = "+ str(S)+ "minimal= "+ str(minimalScore))
@@ -107,10 +115,11 @@ def recursion(grid, protein, depth, firstMove):
             else:
                 recursion(gridCopy,proteinCopy,depth+1, firstMove)
 
-        
+
 while protein.length > 0:
 
     recursion(grid,protein,0,None)
+    moveList.append(minimalPerformedMove)
     
     
     grid.performMove(minimalPerformedMove, protein.pop_first_char())
@@ -119,6 +128,7 @@ while protein.length > 0:
 
     print(protein.length)
 
+print(moveList)
 
 print(grid.score())
 grid.printGrid()

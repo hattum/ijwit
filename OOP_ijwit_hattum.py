@@ -62,9 +62,9 @@ class Protein:
         self.code = self.code[1:]
         self.length = len(self.code)
         return letter
-        
+## HPHPPHHPHPPHPHHPPHPH
 moveList = []
-protein = Protein("HPHPPHHPHPPHPHHPPHPH")
+protein = Protein("HPHPPHHPHP")
 grid = Grid(protein.length)
 moveList.append(grid.checkPossibleMoves()[0])
 grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
@@ -85,13 +85,12 @@ def recursion(grid, protein, depth, firstMove):
     to find all possible folds"""
 
     global minimalScore, minimalGrid, minimalPerformedMove, recursionAmount
-    
     if (recursionAmount % 10000 )== 0:
         print(recursionAmount)
     recursionAmount = recursionAmount+1
 
-    if depth == 4 or protein.length == 0:
-        depth = 0
+    if depth == 99 or protein.length == 0:
+        #depth = 0
         S = grid.score()
         # print("score = "+ str(S)+ "minimal= "+ str(minimalScore))
         if S <= minimalScore and (len(grid.checkPossibleMoves()) > 0 or protein.length == 0):
@@ -132,7 +131,46 @@ print(moveList)
 
 print(grid.score())
 grid.printGrid()
+
+######### 2.0
+
+allMoves = []
+protein = Protein("HPHPPHHPHP")
+grid = Grid(10)
+minimalScore = 0
+minimalGrid = None
+minimalPerformedMove = None
    
+def recursion_01(grid, allMoves, depth):
+    """This is a recursive function
+    to find all possible folds"""
+
+    global minimalScore, minimalGrid
     
 
+    if depth == 10 or protein.length == 0:
+        S = grid.score()
+        if S <= minimalScore and (len(grid.checkPossibleMoves()) > 0 or protein.length == 0):
+            minimalScore = S
+            minimalGrid = grid
+            
+         
+    else:
+        
+        moves = grid.checkPossibleMoves()
+        for move in moves:
+            allMoves = allMoves[:depth]
+            allMoves.append(move)
+            grid = Grid(10)
+            for allMove in allMoves:
+                grid.performMove(allMove, protein.code[grid.totalMoves])
+            
+            
+            recursion_01(grid, allMoves, depth+1)
 
+    
+
+recursion_01(grid, allMoves, 0)
+
+print(minimalScore)
+minimalGrid.printGrid()

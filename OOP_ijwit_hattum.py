@@ -1,6 +1,8 @@
 import random
 from copy import deepcopy
 
+from Jeroen.classes.visualisation_OOP import Visualisation
+
 class Grid:
     def  __init__(self, size):
         actualgridsize = 2*size + 1
@@ -74,6 +76,8 @@ grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
 #     grid.performMove(random.choice(moves),letter)
 
 
+
+
 minimalScore = 0
 minimalGrid = None
 minimalPerformedMove = None
@@ -127,9 +131,13 @@ while protein.length > 0:
 
     print(protein.length)
 
+print(f'move list: {moveList}')
+visualisation = Visualisation("HPHPPHHPHPPHPHHPPHPH", grid.score(), moveList)
+visualisation.plot()
+
 print(moveList)
 
-print(grid.score())
+print(f"grid scor: {grid.score()}")
 grid.printGrid()
 
 ######### 2.0

@@ -3,10 +3,8 @@
 door Miro Zwering met ID 12910260
 """
 import itertools
-from collections import OrderedDict
 from copy import deepcopy
 
-offsets = OrderedDict()
 offsets = {
     "1": [0, 1],
     "-1": [0, -1],
@@ -106,22 +104,21 @@ class AminoQueue(Queue):
         directs = ["2", "1", "-2", "-1"]
         directions_cycle = itertools.cycle(directs)
         start_amino = self.dequeue()
-        current_pos = (int(len(self.string)/2) - 1,int(len(self.string)/2) - 1)
+        start_pos = (int(len(self.string)/2) - 1,int(len(self.string)/2) - 1)
         print("Current-ami is:",start_amino)
-        print("Current-pos is:",current_pos)
-        amino_path = [current_pos]
-        amino_paths = []
-        predecessors= {current_pos: None}
+        print("Current-pos is:",start_pos)
+        amino_path = [start_pos]
+        predecessors= {start_pos: None}
         directions = {}
         directions2 = []
 
         direction = next(directions_cycle)
         starter_amino = self.dequeue()
-        currenter_pos = (current_pos[0] + offsets[direction][0], 
-                    current_pos[1] + offsets[direction][1])
-        amino_path += [currenter_pos]
-        predecessors[currenter_pos] = current_pos
-        directions[current_pos] = direction
+        neighbour_pos = (start_pos[0] + offsets[direction][0], 
+                    start_pos[1] + offsets[direction][1])
+        amino_path += [neighbour_pos]
+        predecessors[neighbour_pos] = start_pos
+        directions[start_pos] = direction
         directions2.append((start_amino, direction))
 
         while not self.is_empty():
@@ -129,18 +126,18 @@ class AminoQueue(Queue):
             print("DIRECTION:",direction)
             next_amino = self.dequeue()
             print("Next-ami is:",next_amino)
-            neighbour = (currenter_pos[0] + offsets[direction][0], 
-                        currenter_pos[1] + offsets[direction][1])
+            neighbour = (neighbour_pos[0] + offsets[direction][0], 
+                        neighbour_pos[1] + offsets[direction][1])
             print("Pos:", neighbour)
             if neighbour not in directions:
                 print("STARTER:", start_amino)
                 directions2.append((starter_amino, direction))
-                directions[currenter_pos] = direction
-                predecessors[neighbour] = currenter_pos
+                directions[neighbour_pos] = direction
+                predecessors[neighbour] = neighbour_pos
                 starter_amino = next_amino
-                currenter_pos = neighbour
-                print("PosValid is:",currenter_pos)
-                amino_path.append(currenter_pos)
+                neighbour_pos = neighbour
+                print("PosValid is:",neighbour_pos)
+                amino_path.append(neighbour_pos)
                 
 
             elif neighbour in directions:
@@ -148,21 +145,21 @@ class AminoQueue(Queue):
                     direction = next(directions_cycle)
                     direction = next(directions_cycle)
                     direction = next(directions_cycle)
-                    directions[currenter_pos] = direction
+                    directions[neighbour_pos] = direction
                     print("OnGoing-ami is:", next_amino)
-                    print("OnGoing-pos is:",current_pos)
+                    print("OnGoing-pos is:",start_pos)
                     print("DIRECTION:",direction)
-                    neighbour = (currenter_pos[0] + offsets[direction][0], 
-                                currenter_pos[1] + offsets[direction][1])
+                    neighbour = (neighbour_pos[0] + offsets[direction][0], 
+                                neighbour_pos[1] + offsets[direction][1])
                     print("OnGoing-ami is:", next_amino)
                     print("Neighbour is:", neighbour)
-                predecessors[neighbour] = currenter_pos
+                predecessors[neighbour] = neighbour_pos
                 directions2.append((starter_amino, direction))
                 directions[neighbour] = direction
                 starter_amino = next_amino
-                currenter_pos = neighbour
-                print("Current-pos is:",currenter_pos)
-                amino_path.append(currenter_pos)
+                neighbour_pos = neighbour
+                print("Current-pos is:",neighbour_pos)
+                amino_path.append(neighbour_pos)
         last_amino = directions2.pop()
         laster_amino = last_amino[0]
         print("Last amino is:", last_amino)

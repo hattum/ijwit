@@ -118,6 +118,11 @@ grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
 
 
 
+# HPHPPHHPHPPHPHHPPHPH
+allMoves = []
+protein = Protein("HPHPPHHPHPPHPHHPPHPH")
+length = protein.length
+grid = Grid(length)
 minimalScore = 0
 minimalGrid = None
 minimalPerformedMove = None
@@ -206,27 +211,41 @@ def recursion_01(grid, allMoves, depth):
 
     if depth == 10 or protein.length == 0:
         S = grid.score()
+        
+        
         if S <= minimalScore and (len(grid.checkPossibleMoves()) > 0 or protein.length == 0):
+            
             minimalScore = S
             minimalGrid = grid
+            minimalPerformedMove = firstMove
             
-         
     else:
-        
         moves = grid.checkPossibleMoves()
         for move in moves:
-            allMoves = allMoves[:depth]
+            allMoves = allMoves[:(depth+(numberOfPerformedMoves))]
             allMoves.append(move)
-            grid = Grid(10)
+            grid = Grid(length)
             for allMove in allMoves:
+                
                 grid.performMove(allMove, protein.code[grid.totalMoves])
             
+            if depth == 0:
+                recursion_01(grid, allMoves, depth+1, length, move, numberOfPerformedMoves)
+            else:
+                recursion_01(grid, allMoves, depth+1, length, firstMove, numberOfPerformedMoves)
             
-            recursion_01(grid, allMoves, depth+1)
 
-    
+letterPos = 0
+while protein.length > letterPos:
+    recursion_01(grid, allMoves, 0, length, None, letterPos)
+    allMoves.append(minimalPerformedMove)
+    grid.performMove(minimalPerformedMove, protein.code[letterPos])
+    minimalPerformedMove = None
+    minimalScore = 0
+    letterPos = letterPos +1
+    print(letterPos)
 
-recursion_01(grid, allMoves, 0)
-
-print(minimalScore)
-minimalGrid.printGrid()
+print(grid.score())
+grid.printGrid()
+# print(minimalScore)
+# grid.printGrid()

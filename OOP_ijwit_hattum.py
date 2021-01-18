@@ -33,14 +33,28 @@ minimalScore = 0
 minimalGrid = None
 minimalPerformedMove = None
    
+allMoves = []
+protein = Protein("HPHPPHHPHPPHPHHPPHPH")
+length = protein.length
+grid = Grid(length)
+minimalScore = 0
+minimalGrid = None
+minimalPerformedMove = None
+recursionAmount = 0
+   
 def recursion_01(grid, allMoves, depth, length, firstMove, numberOfPerformedMoves):
     """This is a recursive function
     to find all possible folds"""
 
-    global minimalScore, minimalGrid
-    
+    global minimalScore, minimalGrid, recursionAmount, minimalPerformedMove
 
-    if depth == 6 or protein.length == 0:
+    if (recursionAmount % 10000 )== 0:
+        print(recursionAmount)
+    recursionAmount = recursionAmount+1
+
+    if depth == 6 or len(allMoves) == protein.length:
+        
+        
         S = grid.score()
         
         

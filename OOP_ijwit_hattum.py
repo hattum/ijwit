@@ -12,50 +12,48 @@ from classes_hattum.protein import Protein
 
 ## HPHPPHHPHPPHPHHPPHPH
 moveList = []
+allMoves = []
+
 
 # initialize a Protein object called protein
-protein = Protein("HPHPPHHPHP")
+protein = Protein("HHPHHHPHPHHHPH")
 length = protein.length
 
 # initialize a Grid object called grid
 grid = Grid(protein.length)
 
 # append all the possible folding moves to the list moveList
-moveList.append(grid.checkPossibleMoves()[0])
+allMoves.append(grid.checkPossibleMoves()[0])
 
 # places the amino acids in the grid on their calculated place
-grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
+grid.performMove(grid.checkPossibleMoves()[0], protein.code[0])
+allMoves.append(grid.checkPossibleMoves()[3])
+grid.performMove(grid.checkPossibleMoves()[3], protein.code[1])
+grid.printGrid()
 
 
-allMoves = []
 
-minimalScore = 0
-minimalGrid = None
-minimalPerformedMove = None
-   
-allMoves = []
-protein = Protein("HPHPPHHPHPPHPHHPPHPH")
-length = protein.length
-grid = Grid(length)
 minimalScore = 0
 minimalGrid = None
 minimalPerformedMove = None
 recursionAmount = 0
-   
+states = 0   
+
 def recursion_01(grid, allMoves, depth, length, firstMove, numberOfPerformedMoves):
     """This is a recursive function
     to find all possible folds"""
 
-    global minimalScore, minimalGrid, recursionAmount, minimalPerformedMove
+    global minimalScore, minimalGrid, recursionAmount, minimalPerformedMove, states
 
     if (recursionAmount % 10000 )== 0:
         print(recursionAmount)
     recursionAmount = recursionAmount+1
 
-    if depth == 6 or len(allMoves) == protein.length:
+    if depth == 7 or len(allMoves) == protein.length:
         
         
         S = grid.score()
+        states = states + 1
         
         
         if S <= minimalScore and (len(grid.checkPossibleMoves()) > 0 or protein.length == 0):
@@ -80,7 +78,7 @@ def recursion_01(grid, allMoves, depth, length, firstMove, numberOfPerformedMove
                 recursion_01(grid, allMoves, depth+1, length, firstMove, numberOfPerformedMoves)
             
 
-letterPos = 0
+letterPos = 2
 while protein.length > letterPos:
     recursion_01(grid, allMoves, 0, length, None, letterPos)
     allMoves.append(minimalPerformedMove)
@@ -90,7 +88,7 @@ while protein.length > letterPos:
     letterPos = letterPos +1
     print(letterPos)
 
-print(grid.score())
-grid.printGrid()
-# print(minimalScore)
-# grid.printGrid()
+
+print(minimalGrid.score())
+minimalGrid.printGrid()
+print(states)

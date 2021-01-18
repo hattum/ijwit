@@ -1,4 +1,4 @@
-import copy
+import copy, math
 from helpers_miro import offsets
 from queue_miro import Queue, AminoQueue
 from priorityqueue_miro import PriorityQueue
@@ -20,13 +20,6 @@ def is_angled(state):
         if state[i][0] != state[i-1][0]:
             return False
     return True
-
-# def map(paths, string):
-#     chpaths = []
-#     for child in paths:
-#         childmatch = mapper(child, string)
-#     chpaths.append(childmatch)
-#     return chpaths
 
 def mapper(child, string):
     childmatch = []
@@ -63,13 +56,21 @@ def scoreH(child):
 def best_score(chpaths):
     scoreX = 0
     for chpath in chpaths:
-        print("chpath is:", chpath)
+        #print("chpath is:", chpath)
         score = scoreH(chpath)
-        print("ScoreH is:", score)
+        #print("ScoreH is:", score)
         if score < scoreX:
             winner = chpath
             scoreX = score
     return winner, scoreX
+
+def heuristic(a, b):
+    """
+    Manhattan distance schuin
+    """
+    return abs(a[0] - b[0]) + abs(a[1] - b[1])
+    #return math.sqrt(((abs(a[0] - b[0]) * abs(a[0] - b[0])) + ((abs(a[1] - b[1]) * abs(a[1] - b[1])))
+    
 
 def priority_miro(depth):
     start = (0,0)
@@ -80,11 +81,14 @@ def priority_miro(depth):
     neighbour_pos = (start[0] + offsets[direction][0], 
                     start[1] + offsets[direction][1])
     score = 0
+    maxscore = 0
     pq.put([start,neighbour_pos], score)
     paths = []
     aminoschecked = string[0] + string[1]
 
     while not pq.is_empty():
+        priority = pq.getter()
+        print("Priority is:", priority)
         state = pq.get()
         print("State is:", state)
         if len(state) < len(string):
@@ -92,50 +96,63 @@ def priority_miro(depth):
             aminoschecked += next_amino
         print("Next amino is:", next_amino)
         if len(state) < depth:
-            if is_symm(state):
-                for direction in ["2", "1"]:
-                    neighbour_pos = (state[-1][0] + offsets[direction][0], 
-                                    state[-1][1] + offsets[direction][1])
-                    child = copy.deepcopy(state)
-                    if neighbour_pos not in child and child not in paths:
-                        child += [neighbour_pos]
-                        score = 0
-                        childmatch = mapper(child, aminoschecked)
-                        score = scoreH(childmatch)
-                        print("ScoreHIER is:", score)
-                        pq.put(child, score)
-                        if len(child) == depth:
-                            paths.append(child)
+            if priority <= 0:
+                if is_symm(state):
+                    for direction in ["2", "1"]:
+                        neighbour_pos = (state[-1][0] + offsets[direction][0], 
+                                        state[-1][1] + offsets[direction][1])
+                        child = copy.deepcopy(state)
+                        if neighbour_pos not in child and child not in paths:
+                            child += [neighbour_pos]
+                            h_value = heuristic(start, neighbour_pos)
+                            h_value = 0
+                            childmatch = mapper(child, aminoschecked)
+                            score = scoreH(childmatch) + h_value
+                            if score < maxscore:
+                                maxscore = score
+                                print("Maxscore is:", maxscore)
+                            print("ScoreHIER is:", score)
+                            pq.put(child, score)
+                            if len(child) == depth:
+                                paths.append(child)
 
-            elif is_angled(state):
-                for direction in ["2", "-2"]:
-                    neighbour_pos = (state[-1][0] + offsets[direction][0], 
-                                    state[-1][1] + offsets[direction][1])
-                    child = copy.deepcopy(state)
-                    if neighbour_pos not in child and child not in paths:
-                        child += [neighbour_pos]
-                        score = 0
-                        childmatch = mapper(child, aminoschecked)
-                        score = scoreH(childmatch)
-                        print("ChildHIERHIER is:", child)
-                        print("ScoreHIERHIER is:", score)
-                        pq.put(child, score)
-                        if len(child) == depth:
-                            paths.append(child)
-                          
-            else:
-                for direction in ["2", "1", "-2", "-1"]:
-                    neighbour_pos = (state[-1][0] + offsets[direction][0], 
-                        state[-1][1] + offsets[direction][1])
-                    child = copy.deepcopy(state)
-                    if neighbour_pos not in child and child not in paths:
-                        child += [neighbour_pos]
-                        score = 0
-                        childmatch = mapper(child, aminoschecked)
-                        score = scoreH(childmatch)
-                        pq.put(child, score)
-                        if len(child) == depth:
-                            paths.append(child)
+                elif is_angled(state):
+                    for direction in ["2", "-2"]:
+                        neighbour_pos = (state[-1][0] + offsets[direction][0], 
+                                        state[-1][1] + offsets[direction][1])
+                        child = copy.deepcopy(state)
+                        if neighbour_pos not in child and child not in paths:
+                            child += [neighbour_pos]
+                            h_value = heuristic(start, neighbour_pos)
+                            h_value = 0
+                            childmatch = mapper(child, aminoschecked)
+                            score = scoreH(childmatch) + h_value
+                            if score < maxscore:
+                                maxscore = score
+                                print("Maxscore is:", maxscore)
+                            print("ChildHIERHIER is:", child)
+                            print("ScoreHIERHIER is:", score)
+                            pq.put(child, score)
+                            if len(child) == depth:
+                                paths.append(child)
+                            
+                else:
+                    for direction in ["2", "1", "-2", "-1"]:
+                        neighbour_pos = (state[-1][0] + offsets[direction][0], 
+                            state[-1][1] + offsets[direction][1])
+                        child = copy.deepcopy(state)
+                        if neighbour_pos not in child and child not in paths:
+                            child += [neighbour_pos]
+                            h_value = heuristic(start, neighbour_pos)
+                            h_value = 0
+                            childmatch = mapper(child, aminoschecked)
+                            score = scoreH(childmatch) + h_value
+                            if score < maxscore:
+                                maxscore = score
+                                print("Maxscore is:", maxscore)
+                            pq.put(child, score)
+                            if len(child) == depth:
+                                paths.append(child)
                     
     print(f"\nPaths with depth{depth} are:", paths)
     print("\nLengthPaths is:", len(paths))

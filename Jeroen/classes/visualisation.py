@@ -28,7 +28,7 @@ path = mpath.Path(verts, codes)
 
 # plot control points and connecting lines
 x, y = zip(*path.vertices)
-point = ax.plot(x, y, 'go', ms=10, color='green')
+points = ax.plot(x, y, 'go', ms=10, color='green')
 line, = ax.plot(x, y, 'go-', color='grey')
 
 

@@ -10,6 +10,9 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self._elements)[1]
 
+    def getter(self):
+        return (self._elements)[0][0]
+
     def is_empty(self):
         return len(self._elements) == 0
 
@@ -31,9 +34,13 @@ def main():
 
     print(pq)
 
+    print(pq.getter())
     print(pq.get())
+    print(pq.getter())
     print(pq.get())
+    print(pq.getter())
     print(pq.get())
+
 
     print(pq)
 

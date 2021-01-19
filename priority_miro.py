@@ -78,8 +78,9 @@ def heuristic(a, b):
 def priority_miro(depth):
     start = (0,0)
     #string = "HHPHHHPH" #8
-    string = "HHPHHHPHPHHHPH" #14
-    #string = "HPHPPHHPHPPHPHHPPHPH" #20
+    # string = "HHPHHHPHPHHHPH" #14
+    # string = "HPHPPHHPHPPHPHHPPHPH" #20
+    string = "PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP" #36
     pq = PriorityQueue()
     direction = "2"
     neighbour_pos = (start[0] + offsets[direction][0], 

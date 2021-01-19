@@ -7,8 +7,8 @@ class Grid:
     Grid performs specific folding moves.
     """
     def  __init__(self, size):
-        actualgridsize = 2*size + 1
-        self.content = [ [ (-1,'_') for i in range(actualgridsize) ] for j in range(actualgridsize) ]
+        self.actualgridsize = 2*size + 1
+        self.content = [ [ (-1,'_') for i in range(self.actualgridsize) ] for j in range(self.actualgridsize) ]
         self.currentPlace = (size,size)
         self.totalMoves = 0
         
@@ -66,3 +66,6 @@ class Grid:
         self.currentPlace = (move[0], move[1])
         self.totalMoves = self.totalMoves + 1
       
+    def clearGrid(self):
+        self.content = [ [ (-1,'_') for i in range(self.actualgridsize) ] for j in range(self.actualgridsize) ]
+        self.totalMoves = 0

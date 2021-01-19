@@ -7,8 +7,11 @@ class PriorityQueue:
     def put(self, item, priority):
         heapq.heappush(self._elements, (priority, item))
 
+    # def get(self):
+    #     return heapq.heappop(self._elements)[1]
+
     def get(self):
-        return heapq.heappop(self._elements)[1]
+        return heapq.heappop(self._elements)
 
     def getpriority(self):
         return (self._elements)[0][0]
@@ -50,8 +53,8 @@ def main():
     # print(pq.get())
 
 
-    # print(pq)
     print(pq.smallests(2))
+
 
 if __name__ == "__main__":
     main()

@@ -17,5 +17,5 @@ if __name__ == "__main__":
     algo = greedy_lookahead.Greedy_lookahead(protein,grid,5)
 
     # plots the folded protein in a grid
-    visualisation = Visualisation(amino_string, grid.score(), moveList)
+    visualisation = Visualisation(amino_string, grid.score(), algo.allMoves)
     visualisation.plot()

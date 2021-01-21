@@ -1,11 +1,11 @@
 #imports
-from assets.helpers_miro import offsets
-from queue_miro import Queue
-from fold_miro import Fold, PriorityFold, CycleFold
-from classes_hattum import grid_c, grid, protein
+# from assets.helpers_miro import offsets
+# from classes_hattum.queue_miro import Queue
+# from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
+from classes_hattum import grid, protein
 from algorithms_hattum import greedy_lookahead
 from visualisation import Visualisation
-from visualisation_X import Visualisation_X
+
 
 if __name__ == "__main__":
 
@@ -23,7 +23,21 @@ if __name__ == "__main__":
     9: exit program
     """)
 
+    eiwitDict = {
+        0:"HHPHHHPH",
+        1:"HHPHHHPHPHHHPH",
+        2:"HPHPPHHPHPPHPHHPPHPH",
+        3:"PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP",
+        4:"HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH",
+        5:"PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP",
+        6:"CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC",
+        7:"HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH",
+        8:"HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH",
+    }
     option2 = int(input("make an option: "))
+    # if option2 in eiwitDict:
+    #     eiwit = eiwitDict[option2]
+    # else
     if option2 == 0:
         eiwit = "HHPHHHPH"
     elif option2 == 1:
@@ -92,7 +106,7 @@ if __name__ == "__main__":
         algo = greedy_lookahead.Greedy_lookahead(protein, grid, steps)
 
         # plots the folded protein in a grid
-        visualisation = Visualisation(amino_string, grid.score(), algo.allMoves)
+        visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
         visualisation.csv()
     

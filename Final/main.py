@@ -1,5 +1,5 @@
 #imports
-from classes_hattum import grid_c, grid, protein
+from classes_hattum import grid, grid, protein
 from algorithms_hattum import greedy_lookahead
 from visualisation import Visualisation
 from visualisation_X import Visualisation_X
@@ -34,6 +34,6 @@ if __name__ == "__main__":
     print(algo.allMoves)
 
     # plots the folded protein in a grid
-    visualisation = Visualisation(amino_string, grid.score(), algo.allMoves)
+    visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
     visualisation.plot()
     visualisation.csv()

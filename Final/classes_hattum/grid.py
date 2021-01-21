@@ -1,4 +1,4 @@
-class Grid_c:
+class Grid:
     """
     Grid initializes the grid space where the protein will be folded in.
     Grid prints the grid as a list of lists.

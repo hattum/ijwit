@@ -1,6 +1,6 @@
-from helpers_miro import offsets
-from queue_miro import Queue
-from fold_miro import Fold, PriorityFold, CycleFold
+from assets.helpers_miro import offsets
+from classes_hattum.queue_miro import Queue
+from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
 
 def main():
 

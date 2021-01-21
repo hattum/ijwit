@@ -1,77 +1,48 @@
 #imports
-# from assets.helpers_miro import offsets
-# from classes_hattum.queue_miro import Queue
-# from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
+from assets.helpers_miro import offsets
+from classes_hattum.queue_miro import Queue
+from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
 from classes_hattum import grid, protein
 from algorithms_hattum import greedy_lookahead
 from visualisation import Visualisation
 
 
 if __name__ == "__main__":
-
-    print("""eiwit-options:
-    _______________________________
-    0: HHPHHHPH
-    1: HHPHHHPHPHHHPH
-    2: HPHPPHHPHPPHPHHPPHPH
-    3: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
-    4: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
-    5: PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP
-    6: CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC
-    7: HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH
-    8: HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH
-    9: exit program
-    """)
-
     eiwitDict = {
-        0:"HHPHHHPH",
-        1:"HHPHHHPHPHHHPH",
-        2:"HPHPPHHPHPPHPHHPPHPH",
-        3:"PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP",
-        4:"HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH",
-        5:"PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP",
-        6:"CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC",
-        7:"HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH",
-        8:"HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH",
+        '0':"HHPHHHPH",
+        '1':"HHPHHHPHPHHHPH",
+        '2':"HPHPPHHPHPPHPHHPPHPH",
+        '3':"PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP",
+        '4':"HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH",
+        '5':"PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP",
+        '6':"CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC",
+        '7':"HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH",
+        '8':"HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH",
     }
-    option2 = int(input("make an option: "))
-    # if option2 in eiwitDict:
-    #     eiwit = eiwitDict[option2]
-    # else
-    if option2 == 0:
-        eiwit = "HHPHHHPH"
-    elif option2 == 1:
-        eiwit = "HHPHHHPHPHHHPH"
-    elif option2 == 2:
-        eiwit = "HPHPPHHPHPPHPHHPPHPH"
-    elif option2 == 3:
-        eiwit = "PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP"
-    elif option2 == 4:
-        eiwit = "HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH"
-    elif option2 == 5:
-        eiwit = "PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP"
-    elif option2 == 6:
-        eiwit = "CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC"
-    elif option2 == 7:
-        eiwit = "HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH"
-    elif option2 == 8:
-        eiwit = "HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH"
-    elif option2 != 9:
-        print("You did not enter a valid number")
 
-        option2 = int(input("make an option: "))
-    else:
-        print("Ends")
+    print("eiwit-options:")
+    for key, value in eiwitDict.items():
+        print(key,': ', value)
+
+    # Choice menu for the different Protien
+    option2 = input("make an option: ")
+    while True:
+        if option2 == '9':
+            exit()
+        elif option2 in eiwitDict:
+            eiwit = eiwitDict[option2]
+            break
+        else:
+            print("You did not enter a valid number")
+            option2 = input("make an option: ")
+
 
     option = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
     if option.lower() == "cyclefold" or option.upper() == "C":
         algorithm = "cyclefold"
         fold = CycleFold(eiwit, algorithm)
-
         fold.plot()
-
         fold.printDirections()
-
         scoreH = fold.score()
         print("\nScoreH is:", scoreH)
     elif option.lower() == "priority" or option.upper() == "P":
@@ -96,16 +67,19 @@ if __name__ == "__main__":
         winner, scoreH = fold.score()
         print("\nBestChild is:", winner)
         print("BestScore is:", scoreH)
+
     elif option.lower() == "greedy_lookahead" or option.upper() == "G":
+        # Lookahead count
         steps = int(input("How for would you like to lookahead: "))
+
+        # Initializing the needed classes for the algo
         protein = protein.Protein(eiwit)
-
-        # choose to use grid.py or grid_c.py
         grid = grid.Grid(protein.length)
-        
-        algo = greedy_lookahead.Greedy_lookahead(protein, grid, steps)
 
-        # plots the folded protein in a grid
+        # Performing the greedy algo with lookahead
+        algo = greedy_lookahead.Greedy_lookahead(protein, grid, steps)
+        
+        # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
         visualisation.csv()

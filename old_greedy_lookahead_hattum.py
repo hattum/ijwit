@@ -1,8 +1,8 @@
 from copy import deepcopy
-from classes_hattum.protein import Protein
-from classes_hattum.grid import Grid
+from Final.classes_hattum.protein import Protein
+from Final.classes_hattum.grid import Grid
 
-from Jeroen.classes.visualisation_OOP import Visualisation
+# from Jeroen.classes.visualisation_OOP import Visualisation
 
 
 
@@ -10,7 +10,7 @@ from Jeroen.classes.visualisation_OOP import Visualisation
 moveList = []
 
 # initialize a Protein object called protein
-protein = Protein("PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP")
+protein = Protein("HHPHHHPH")
 length = protein.length
 
 # initialize a Grid object called grid
@@ -22,7 +22,7 @@ moveList.append(grid.checkPossibleMoves()[0])
 # places the amino acids in the grid on their calculated place
 grid.performMove(grid.checkPossibleMoves()[0], protein.pop_first_char())
 
-## HPHPPHHPHPPHPHHPPHPH
+
 
 minimalScore = 0
 minimalGrid = None
@@ -44,7 +44,7 @@ def recursion(grid, protein, depth, firstMove):
     recursionAmount = recursionAmount+1
 
     # 
-    if depth == 2 or protein.length == 0:
+    if depth == 6 or protein.length == 0:
         #depth = 0
         S = grid.score()
         # print("score = "+ str(S)+ "minimal= "+ str(minimalScore))
@@ -84,6 +84,9 @@ while protein.length > 0:
     
 
     print(protein.length)
+    
+print(f"grid scor: {grid.score()}")
+grid.printGrid()
 
 print(f'move list: {moveList}')
 visualisation = Visualisation("HPHPPHHPHPPHPHHPPHPH", grid.score(), moveList)
@@ -91,8 +94,6 @@ visualisation.plot()
 
 print(moveList)
 
-print(f"grid scor: {grid.score()}")
-grid.printGrid()
 
 
 

@@ -39,9 +39,9 @@ class Greedy_lookahead:
             self.grid.performMove(self.minimalPerformedMove, self.protein.code[self.grid.totalMoves])
             self.minimalPerformedMove = None
             self.minimalScore = 0
-            print(self.grid.totalMoves)
+            print(str(self.grid.totalMoves) + " of the " + str(self.protein.length) + " aminoacid are already placed in the grid")
 
-        print(self.minimalGrid.score())
+        print("The score of the folding is: " + str(self.grid.score()))
         self.grid.printGrid()
         print("total states = " + str(self.states))
     
@@ -55,8 +55,8 @@ class Greedy_lookahead:
 
 
         # print the amount of recursions for convenience purposes
-        if (self.recursionAmount % 10000 ) == 0:
-            print(self.recursionAmount)
+        if (self.recursionAmount % 10000 ) == 0 and self.recursionAmount > 0:
+            print("Recusion Functionis called: " + str(self.recursionAmount) + " times")
         self.recursionAmount = self.recursionAmount + 1
 
         # calculate the score of the grid when the set depth is reached or all amino acids are folded

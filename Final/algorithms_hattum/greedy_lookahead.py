@@ -17,7 +17,8 @@ class Greedy_lookahead:
         self.lookahead = lookahead
 
         self.perform_first_moves() 
-        self.outer_loop() 
+        self.outer_loop()
+        self.changeMovesList()
 
     def perform_first_moves(self):
         # append the first 2 folding moves to the list moveList
@@ -90,4 +91,15 @@ class Greedy_lookahead:
                 else:
                     self.recursion_01(grid, allMoves, depth+1, length, firstMove, numberOfPerformedMoves)
                 
+    def changeMovesList(self):
+        shift = self.protein.length
+        self.allMoves = [(a-shift,b-shift) for a,b in self.allMoves]
+
+
+        temp = []
+        i = 0
+        for tupl in self.allMoves:
+            temp.append((self.protein.code[i],tupl))
+
+        self.allMoves = temp
 

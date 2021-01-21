@@ -20,7 +20,7 @@ if __name__ == "__main__":
     #amino_string = "HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH"
 
     # set the number of steps to look ahead
-    steps = 5
+    steps = 3
 
 
     protein = protein.Protein(amino_string)
@@ -29,8 +29,9 @@ if __name__ == "__main__":
     #grid = grid.Grid(protein.length)
     grid = grid_c.Grid_c(protein.length)
 
-    print(type(grid))
+    
     algo = greedy_lookahead.Greedy_lookahead(protein, grid, steps)
+    print(algo.allMoves)
 
     # plots the folded protein in a grid
     visualisation = Visualisation_X(amino_string, grid.score(), algo.allMoves)

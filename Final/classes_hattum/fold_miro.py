@@ -1,11 +1,11 @@
 import copy
 import math
-from queue_miro import Queue #, AminoQueue
-from priorityqueue_miro import PriorityQueue
 import itertools
-from helpers_miro import offsets
-from cyclefold import cyclefold, mapper, scoreH
-from priority_miro import priority_miro, map, best_score
+from classes_hattum.queue_miro import Queue
+from classes_hattum.priorityqueue_miro import PriorityQueue
+from assets.helpers_miro import offsets
+from algorithms_hattum.cyclefold import cyclefold, mapper, scoreH
+from algorithms_hattum.priority_miro import priority_miro, map, best_score
 
 class Fold():
     def __init__(self, eiwit, algorithm):

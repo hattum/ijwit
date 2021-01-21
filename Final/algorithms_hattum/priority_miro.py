@@ -1,8 +1,8 @@
 import copy
 import math
-from helpers_miro import offsets
-from queue_miro import Queue
-from priorityqueue_miro import PriorityQueue
+from assets.helpers_miro import offsets
+from classes_hattum.queue_miro import Queue
+from classes_hattum.priorityqueue_miro import PriorityQueue
 
 def is_symm(state):
     for i in range(1, len(state)):

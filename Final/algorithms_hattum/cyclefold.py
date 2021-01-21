@@ -1,6 +1,6 @@
-from helpers_miro import offsets
 import itertools
-from queue_miro import Queue
+from assets.helpers_miro import offsets
+from classes_hattum.queue_miro import Queue
 
 def mapper(child, eiwit):
         match = {}

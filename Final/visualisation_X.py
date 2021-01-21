@@ -5,8 +5,9 @@ import matplotlib.pyplot as plt
 import matplotlib.path as mpath
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
+import csv
 
-class Visualisation():
+class Visualisation_X():
     """
     Visualisation takes the coordinates of the folded protein
     and plots it in a graph using MatPlotLib.
@@ -15,7 +16,6 @@ class Visualisation():
         self.title = title
         self.score = score
         self.coordinates = coordinates
-        self.plot_list = [coordinate[1] for coordinate in coordinates]
 
     def plot(self):
         """
@@ -28,9 +28,9 @@ class Visualisation():
         # make a list of the path to be plotted by looping over the coordinates list
         for i in range(len(self.coordinates)):
             if i == 0:
-                path_data.append((Path.MOVETO, (self.plot_list[i])))
+                path_data.append((Path.MOVETO, (self.coordinates[i])))
             else:
-                path_data.append((Path.LINETO, (self.plot_list[i])))
+                path_data.append((Path.LINETO, (self.coordinates[i])))
 
         # check print statement
         print(f'path list: {path_data}')
@@ -48,3 +48,11 @@ class Visualisation():
         ax.axis('equal')
         plt.title(f'Protein: {self.title}\n Score: {self.score}')
         plt.savefig("Visualisation.png")
+
+    def csv(self):
+        with open('Visualisation.csv', 'w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(["Amino", "Fold"])
+            for tuple_ in self.coordinates:
+                writer.writerow(tuple_)
+            writer.writerow(["Score", self.score])

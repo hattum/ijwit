@@ -8,13 +8,13 @@ from  visualisation import Visualisation
 if __name__ == "__main__":
 
     # set the amino string you want to fold
-    amino_string = "HHPHHHPH"
+    amino_string = "HPHPPHHPHPPHPHHPPHPH"
 
 
     protein = protein.Protein(amino_string)
     grid = grid.Grid(protein.length)
     print(type(grid))
-    algo = greedy_lookahead.Greedy_lookahead(protein,grid,5)
+    algo = greedy_lookahead.Greedy_lookahead(protein,grid,9)
 
     # plots the folded protein in a grid
     visualisation = Visualisation(amino_string, grid.score(), algo.allMoves)

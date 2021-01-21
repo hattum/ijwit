@@ -1,4 +1,4 @@
-class Grid:
+class Grid_c:
     """
     Grid initializes the grid space where the protein will be folded in.
     Grid prints the grid as a list of lists.
@@ -38,6 +38,13 @@ class Grid:
                 if self.content[x][y][1] == self.content[x][y+1][1] == 'H':
                     if self.content[x][y][0] != self.content[x][y+1][0]+1 and self.content[x][y][0] != self.content[x][y+1][0]-1:
                         score = score-1
+                if self.content[x][y][1] == self.content[x+1][y][1] == 'C':
+                    if self.content[x][y][0] != self.content[x+1][y][0]+1 and self.content[x][y][0] != self.content[x+1][y][0]-1:
+                            score = score-5
+                if self.content[x][y][1] == self.content[x][y+1][1] == 'C':
+                    if self.content[x][y][0] != self.content[x][y+1][0]+1 and self.content[x][y][0] != self.content[x][y+1][0]-1:
+                        score = score-5
+
         return score
 
     def checkPossibleMoves(self):

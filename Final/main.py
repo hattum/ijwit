@@ -26,14 +26,14 @@ if __name__ == "__main__":
     protein = protein.Protein(amino_string)
 
     # choose to use grid.py or grid_c.py
-    #grid = grid.Grid(protein.length)
-    grid = grid_c.Grid_c(protein.length)
+    grid = grid.Grid(protein.length)
+    
 
     
     algo = greedy_lookahead.Greedy_lookahead(protein, grid, steps)
     print(algo.allMoves)
 
     # plots the folded protein in a grid
-    visualisation = Visualisation_X(amino_string, grid.score(), algo.allMoves)
+    visualisation = Visualisation(amino_string, grid.score(), algo.allMoves)
     visualisation.plot()
     visualisation.csv()

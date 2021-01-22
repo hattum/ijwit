@@ -28,7 +28,7 @@ class CycleFold(Fold):
     def __init__(self, eiwit, algorithm):
         super().__init__(eiwit, algorithm)
         self.child, self.predecessors, self.directions, self.directions2 = cyclefold(self.eiwit)
-        self.match, self.graph = mapper(self.child, self.eiwit)
+        self.match, self.matcher, self.graph = mapper(self.child, self.eiwit)
 
     def score(self):
         return scoreH(self.match, self.predecessors)
@@ -42,4 +42,16 @@ class CycleFold(Fold):
         print("\nCurrAmi: Richting")
         for tupler in range(len(self.directions2)):
             print(self.directions2[tupler][0], ",", self.directions2[tupler][1])
+
+    # def coord(self):
+    #     coordinates = []
+    #     print("\nPositie: Amino")
+    #     for amino in self.match:
+    #         print(amino, ":" , self.match[amino])
+    #     for key, value in self.match.items():
+    #         coordinates += [(value, key)]
+    #     return coordinates
+
+    def coord(self):
+        return self.matcher
 

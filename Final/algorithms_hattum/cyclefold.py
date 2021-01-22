@@ -4,22 +4,24 @@ from classes_hattum.queue_miro import Queue
 
 def mapper(child, eiwit):
         match = {}
+        matcher = []
         graph = [["   " for i in range(len(eiwit))] for i in range(len(eiwit))]
         for j, element in enumerate(zip(child, eiwit)):
         #for element in zip(child, eiwit):
             pos = element[0]
             amino = element[1]
             match[pos] = amino
+            matcher.append((amino, pos))
             graph[pos[0]][pos[1]] = amino +str(j)
-        return match, graph
+        return match, matcher, graph
 
 def cyclefold(eiwit):
         directs = ["2", "1", "-2", "-1"]
         directions_cycle = itertools.cycle(directs)
         start_amino = eiwit[0]
         start_pos = (int(len(eiwit)/2) - 1,int(len(eiwit)/2) - 1)
-        print("Current-ami is:",start_amino)
-        print("Current-pos is:",start_pos)
+        #print("Current-ami is:",start_amino)
+        #print("Current-pos is:",start_pos)
         child  = [start_pos]
         predecessors= {start_pos: None}
         directions = {}
@@ -36,20 +38,20 @@ def cyclefold(eiwit):
 
         for i in range(2, len(eiwit)):
             direction = next(directions_cycle)
-            print("DIRECTION:",direction)
+            #print("DIRECTION:",direction)
             next_amino = eiwit[i]
             print("Next-ami is:",next_amino)
             neighbour = (neighbour_pos[0] + offsets[direction][0], 
                         neighbour_pos[1] + offsets[direction][1])
-            print("Pos:", neighbour)
+            #print("Pos:", neighbour)
             if neighbour not in directions:
-                print("STARTER:", start_amino)
+                #print("STARTER:", start_amino)
                 directions2.append((starter_amino, direction))
                 directions[neighbour_pos] = direction
                 predecessors[neighbour] = neighbour_pos
                 starter_amino = next_amino
                 neighbour_pos = neighbour
-                print("PosValid is:",neighbour_pos)
+                #print("PosValid is:",neighbour_pos)
                 child.append(neighbour_pos)
                 
 
@@ -59,25 +61,25 @@ def cyclefold(eiwit):
                     direction = next(directions_cycle)
                     direction = next(directions_cycle)
                     directions[neighbour_pos] = direction
-                    print("OnGoing-ami is:", next_amino)
-                    print("OnGoing-pos is:",start_pos)
-                    print("DIRECTION:",direction)
+                    #print("OnGoing-ami is:", next_amino)
+                    #print("OnGoing-pos is:",start_pos)
+                    #print("DIRECTION:",direction)
                     neighbour = (neighbour_pos[0] + offsets[direction][0], 
                                 neighbour_pos[1] + offsets[direction][1])
-                    print("OnGoing-ami is:", next_amino)
-                    print("Neighbour is:", neighbour)
+                    #print("OnGoing-ami is:", next_amino)
+                    #print("Neighbour is:", neighbour)
                 predecessors[neighbour] = neighbour_pos
                 directions2.append((starter_amino, direction))
                 directions[neighbour] = direction
                 starter_amino = next_amino
                 neighbour_pos = neighbour
-                print("Current-pos is:",neighbour_pos)
+                #print("Current-pos is:",neighbour_pos)
                 child.append(neighbour_pos)
         last_amino = directions2.pop()
         laster_amino = last_amino[0]
-        print("Last amino is:", last_amino)
+        #print("Last amino is:", last_amino)
         laster_amino = last_amino[0]
-        print("Laster amino is:", laster_amino)
+        #print("Laster amino is:", laster_amino)
         directions2.append((laster_amino, 0))
         return child, predecessors, directions, directions2
 
@@ -125,20 +127,20 @@ def scoreH(match, predecessors):
     while not H_q.is_empty():
     #for i in range(H_q.size()):
         current_H = H_q.dequeue()
-        print("\nCurrentH is:", current_H)
+        #print("\nCurrentH is:", current_H)
         for j in range(len(H_lijst)):
         #for j in range(i+2, len(H_lijst)):
             next_H = H_lijst[j]
-            print("NextHlijst is:", next_H)
-            print("CurrentH is:", current_H)
+            # print("NextHlijst is:", next_H)
+            # print("CurrentH is:", current_H)
             #print("Predecessor is:", self.predecessors[next_H])
             if current_H[0] == next_H[0] and (current_H[1] == next_H[1] - 1 or current_H[1] == next_H[1] +1) and predecessors[next_H] != current_H:
-                print("NextH_hor is:", next_H)
-                print("Predecessor is:", predecessors[next_H])
+                # print("NextH_hor is:", next_H)
+                # print("Predecessor is:", predecessors[next_H])
                 scoreH += 1
             elif current_H[1] == next_H[1] and (current_H[0] == next_H[0] - 1 or current_H[0] == next_H[0] +1) and predecessors[next_H] != current_H:
-                print("NextH_vert is:", next_H)
-                print("Predecessor is:", predecessors[next_H])
+                # print("NextH_vert is:", next_H)
+                # print("Predecessor is:", predecessors[next_H])
                 scoreH += 1
         H_lijst.pop(0)
     return scoreH

@@ -1,5 +1,6 @@
 import itertools
 from assets.helpers_miro import offsets
+# from classes_hattum.queue_miro import Queue
 from classes_hattum.queue_miro import Queue
 
 def mapper(child, eiwit):
@@ -19,7 +20,7 @@ def cyclefold(eiwit):
         directs = ["2", "1", "-2", "-1"]
         directions_cycle = itertools.cycle(directs)
         start_amino = eiwit[0]
-        start_pos = (int(len(eiwit)/2) - 1,int(len(eiwit)/2) - 1)
+        start_pos = (0,0)
         #print("Current-ami is:",start_amino)
         #print("Current-pos is:",start_pos)
         child  = [start_pos]

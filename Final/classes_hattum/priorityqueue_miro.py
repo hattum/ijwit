@@ -28,7 +28,8 @@ class PriorityQueue:
         return f"The list is empty"
 
     def smallests(self, n): 
-        return heapq.nsmallest(n, self._elements)
+        self._elements = heapq.heapify(heapq.nsmallest(n, self._elements))
+
 
 
 

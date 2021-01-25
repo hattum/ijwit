@@ -41,9 +41,11 @@ if __name__ == "__main__":
     if option.lower() == "cyclefold" or option.upper() == "C":
         algorithm = "cyclefold"
         fold = CycleFold(eiwit, algorithm)
-        fold.plot()
-        fold.printDirections()
         scoreH = fold.score()
+        coordinates = fold.coord()
+        visualisation = Visualisation(eiwit, scoreH, coordinates)
+        visualisation.plot()
+      
         print("\nScoreH is:", scoreH)
     elif option.lower() == "priority" or option.upper() == "P":
         algorithm = "priority"

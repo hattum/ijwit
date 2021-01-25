@@ -49,26 +49,14 @@ def scoreH(child):
     return scoreH + scoreC
 
 
-# def best_score(chpaths):
-#     scoreX = 0
-#     for chpath in chpaths:
-#         score = scoreH(chpath)
-#         if score <= scoreX:
-#             winner = chpath
-#             scoreX = score
-#     return winner, scoreX
-
-def best_scoorders(chpaths):
-    scoorders = []
+def best_score(chpaths):
     scoreX = 0
-    scoreY = []
     for chpath in chpaths:
         score = scoreH(chpath)
         if score <= scoreX:
-            scoorders.append(chpath)
-            scoreY.append(score)
+            winner = chpath
             scoreX = score
-    return scoorders, scoreY
+    return winner, scoreX
 
 
 def potentials(eiwit, depth): #nieuw
@@ -85,14 +73,20 @@ def potentials(eiwit, depth): #nieuw
     return hpotentials, cpotentials
 
 
-def priority_miro(depth, eiwit, cyclevalue):
+def priority_miro(depth, eiwit):
     hpotentials, cpotentials = potentials(eiwit, depth)
     print("Hpotentials is", hpotentials) #nieuw
     print("Cpotentials is", cpotentials) #nieuw
+    start = (0,0)
     pq = PriorityQueue()
+    direction = "2"
+    neighbour_pos = (start[0] + offsets[direction][0], 
+                    start[1] + offsets[direction][1])
+    score = 0
     maxscore = 0
-    pq.put([(0,0),(-1,0)], 0)
+    pq.put([start,neighbour_pos], score)
     paths = []
+    aminoschecked = ""
 
     while not pq.is_empty():
         priority, state = pq.get()
@@ -114,17 +108,7 @@ def priority_miro(depth, eiwit, cyclevalue):
                         childmatch = mapper(child, aminoschecked)
                         print("Hpotentials[len(child) - 1] is:", hpotentials[len(child) - 1])
                         print("Cpotentials[len(child) - 1] is:", cpotentials[len(child) - 1])
-                        if eiwit[0] == "H" or eiwit[0] == "C":
-                            factor = (hpotentials[0] + cpotentials[0] + 1)/depth
-                        else:
-                            factor = (hpotentials[0] + cpotentials[0])/depth
-                        print("Factor is:", factor)
-                        #h_value = -((hpotentials[len(child) - 1]) * 2) - ((cpotentials[len(child) - 1]) * 2)
-                        #h_value = -((hpotentials[len(child) - 1]) * (cyclevalue/len(eiwit))) - ((cpotentials[len(child) - 1]) * cyclevalue/(cyclevalue/len(eiwit)))
-                        h_value = -((hpotentials[len(child) - 1]) * (cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (cyclevalue/depth)) * factor
-                        #h_value = -((hpotentials[len(child) - 1]) * (cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (cyclevalue/depth))
-                        #h_value = -((hpotentials[len(child) - 1]) * ((len(eiwit) + 1)/len(eiwit))) - ((cpotentials[len(child) - 1]) * ((len(eiwit) + 1)/len(eiwit)))
-                        #h_value = -((hpotentials[len(child) - 1]) * ((depth + 1)/depth) - ((cpotentials[len(child) - 1]) * ((depth + 1)/depth)))
+                        h_value = -((hpotentials[len(child) - 1]) * 4/3)-((cpotentials[len(child) - 1]) * 4/3)
                         print("H+Cvalue is:", h_value)
                         score = scoreH(childmatch)
                         print("Score is:", score)
@@ -151,17 +135,7 @@ def priority_miro(depth, eiwit, cyclevalue):
                         childmatch = mapper(child, aminoschecked)
                         print("Hpotentials[len(child) - 1] is:", hpotentials[len(child) - 1])
                         print("Cpotentials[len(child) - 1] is:", cpotentials[len(child) - 1])
-                        if eiwit[0] == "H" or eiwit[0] == "C":
-                            factor = (hpotentials[0] + cpotentials[0] + 1)/depth
-                        else:
-                            factor = (hpotentials[0] + cpotentials[0])/depth
-                        print("Factor is:", factor)
-                        #h_value = -((hpotentials[len(child) - 1]) * 2) - ((cpotentials[len(child) - 1]) * 2)
-                        #h_value = -((hpotentials[len(child) - 1]) * (cyclevalue/len(eiwit))) - ((cpotentials[len(child) - 1]) * cyclevalue/(cyclevalue/len(eiwit)))
-                        h_value = -((hpotentials[len(child) - 1]) * (cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (cyclevalue/depth)) * factor
-                        #h_value = -((hpotentials[len(child) - 1]) * (cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (cyclevalue/depth))
-                        #h_value = -((hpotentials[len(child) - 1]) * ((len(eiwit) + 1)/len(eiwit))) - ((cpotentials[len(child) - 1]) * ((len(eiwit) + 1)/len(eiwit)))
-                        #h_value = -((hpotentials[len(child) - 1]) * ((depth + 1)/depth) - ((cpotentials[len(child) - 1]) * ((depth + 1)/depth)))
+                        h_value = -((hpotentials[len(child) - 1]) * 4/3)-((cpotentials[len(child) - 1]) * 4/3)
                         print("H+Cpotentie is:", h_value)
                         score = scoreH(childmatch)
                         print("Score is:", score)
@@ -190,7 +164,7 @@ def priority_miro(depth, eiwit, cyclevalue):
 #         childmatch = mapper(child, aminoschecked)
 #         print("Hpotentials[len(child) - 1] is:", hpotentials[len(child) - 1])
 #         print("Cpotentials[len(child) - 1] is:", cpotentials[len(child) - 1])
-#         h_value = -((hpotentials[len(child) - 1]) * 2)-((cpotentials[len(child) - 1]) * 2)
+#         h_value = -((hpotentials[len(child) - 1]) * 4/3)-((cpotentials[len(child) - 1]) * 4/3)
 #         print("H+Cvalue is:", h_value)
 #         score = scoreH(childmatch)
 #         print("Score is:", score)

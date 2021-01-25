@@ -1,6 +1,6 @@
 from assets.helpers_miro import offsets
-from classes_hattum.queue_miro import Queue
-from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
+from classes_hattum.fold_miro import PriorityFold, CycleFold
+from visualisation import Visualisation
 
 def main():
 
@@ -12,23 +12,25 @@ def main():
     3: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
     4: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
     5: PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP
-    6: CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC
-    7: HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH
-    8: HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH
+    6: CPPCHPPCHPPCPPHHHHHHCCPCHPPC PCHP PHPC
+    7: HCPH PCPH PCHC HPHP PPHP PPHP PPPH PC PH PPPHPHHHCCHCHCHCHH
+    8: HCPH PHPH CHHH HPCC PPHP PPHP PPPC PPPH PPPH PHHH HCHPH PHPHH
     9: exit program
     """)
 
     option2 = int(input("make an option: "))
     if option2 == 0:
         eiwit = "HHPHHHPH"
+        #eiwit = "CHHCHCHC"
+        #eiwit = "H" *20
     elif option2 == 1:
         eiwit = "HHPHHHPHPHHHPH"
     elif option2 == 2:
-        eiwit = "HPHPPHHPHPPHPHHPPHPH"
+        eiwit = "HPHPPHHPHPPHPHHPPHPH" #20
     elif option2 == 3:
-        eiwit = "PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP"
+        eiwit = "PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP" #36
     elif option2 == 4:
-        eiwit = "HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH"
+        eiwit = "HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH" #50
     elif option2 == 5:
         eiwit = "PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP"
     elif option2 == 6:
@@ -48,14 +50,20 @@ def main():
     if option.lower() == "cyclefold" or option.upper() == "C":
         algorithm = "cyclefold"
         fold = CycleFold(eiwit, algorithm)
-    
 
-        fold.plot()
+        #fold.plot()
 
-        fold.printDirections()
+        #fold.printDirections()
 
         scoreH = fold.score()
         print("\nScoreH is:", scoreH)
+
+        coordinates = fold.coord()
+        print("Coordinates are:", coordinates)
+
+        # visualisation = Visualisation(eiwit, scoreH, coordinates)
+        # visualisation.plot()
+        
 
     # scoreHvar = fold.scoreHvar()
     # print("\nScoreHvar is:", scoreHvar)
@@ -81,11 +89,24 @@ def main():
                     break
                 else:
                     print("Depth between 3 and eiwit-length")
+        cyclefold = CycleFold(depth * "H", algorithm) #nieuw
+        cyclevalue = cyclefold.score()  #nieuw
 
-        fold = PriorityFold(eiwit, algorithm, depth)
-        winner, scoreH = fold.score()
-        print("\nBestChild is:", winner)
-        print("BestScore is:", scoreH)
+        # print("\nCyclevalue is:", cyclevalue)
+        #fold = PriorityFold(eiwit, algorithm, depth)
+        fold = PriorityFold(eiwit, algorithm, depth, cyclevalue)
+        
+        scoorders, scoreY = fold.score()
+        print("\nBestChilds are:", scoorders)
+        print("BestScore is:", scoreY)
+        print("\nCyclevalue is:", cyclevalue)
+
+        #winner, scoreH = fold.score()
+        #print("\nBestChild is:", winner)
+        #print("BestScore is:", scoreH)
+
+        #TODO: visualisation = Visualisation(title, scoreH, winner)
+        #? visualisation.plot()
   
 if __name__ == "__main__":
     main()

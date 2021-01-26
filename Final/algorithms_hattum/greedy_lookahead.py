@@ -85,7 +85,6 @@ class Greedy_lookahead:
                
                 grid.clearGrid()
 
-            
                 for allMove in allMoves:
                     grid.performMove(allMove, self.protein.code[grid.totalMoves])
     
@@ -97,7 +96,6 @@ class Greedy_lookahead:
     def changeMovesList(self):
         shift = self.protein.length
         self.allMoves = [(a-shift,b-shift) for a,b in self.allMoves]
-
 
         temp = []
         i = 0

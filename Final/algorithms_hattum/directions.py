@@ -27,7 +27,7 @@ print("Directions are:", directions(coords))
 def printdirections(lijst):
     for i in lijst:
         print(i[0], ',', i[1])
-
-printdirections(coords)
+lijst = directions(coords)
+printdirections(lijst)
 
     

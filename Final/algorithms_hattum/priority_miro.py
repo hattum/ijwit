@@ -17,6 +17,15 @@ lijsten van coordinaten.
 'Hpotentials' is een dictionary vd hoeveelheid H's die nog moeten komen per index vd 'depth'
 'Cpotentials' is een dictionary vd hoeveelheid C's die nog moeten komen per index vd 'depth'
 """
+def directions(coords):
+    dict = {}
+    for i in range(len(coords) - 1):
+        for direction in offsets:
+            if coords[i+1][1] == (coords[i][1][0] + offsets[direction][0], 
+                        coords[i][1][1] + offsets[direction][1]):
+                dict[coords[i][0]] = direction
+    dict[coords[-1][0]] = "0"
+    return dict
 
 def countinvalids(eiwit, depth):
     omgekeerd = ''.join(reversed(eiwit[:depth]))
@@ -147,7 +156,7 @@ def priority_miro(depth, eiwit, cyclevalue, heuristic):
                         aminoschecked = eiwit[:(len(state)+ 1)]
                         childmatch = mapper(child, aminoschecked)
                         if heuristic == "admissable":
-                            h_value = -((hpotentials[len(child) - 1]) * 2) - ((cpotentials[len(child) - 1]) * 2)
+                            h_value = -((hpotentials[len(child) - 1]) * 2) - ((cpotentials[len(child) - 1]) * 5)
                         if heuristic == "regular":
                             h_value = -((hpotentials[len(child) - 1]) * ((depth + 1)/depth)) - ((cpotentials[len(child) - 1]) * ((depth + 1)/depth))
                         if heuristic == "cyclebased":
@@ -155,7 +164,6 @@ def priority_miro(depth, eiwit, cyclevalue, heuristic):
                         if heuristic == "cyclereducedbyfactor": 
                             h_value = -((hpotentials[len(child) - 1]) * (-cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (-cyclevalue/depth)) * factor
                         score = scoreH(childmatch)
-                        print("Score is:", score)
                         priority = score + h_value
                         if priority <= maxscore:
                             pq.put(child, priority)
@@ -185,10 +193,7 @@ def priority_miro(depth, eiwit, cyclevalue, heuristic):
                         if heuristic == "cyclereducedbyfactor": 
                             h_value = -((hpotentials[len(child) - 1]) * (-cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (-cyclevalue/depth)) * factor
                         score = scoreH(childmatch)
-                        print("Score is:", score)
                         priority = score + h_value
-                        print("Priority is:", priority)
-                        print("maxscoretervergelijk:", maxscore)
                         if priority <= maxscore:
                             pq.put(child, priority)
                         if score < maxscore:
@@ -198,31 +203,32 @@ def priority_miro(depth, eiwit, cyclevalue, heuristic):
                         
 
     #print(f"\nPaths with depth{depth} are:", paths)
-    print(f"\nLengthPaths with depth{depth} is:", len(paths))
+    #print(f"\nLengthPaths with depth{depth} is:", len(paths))
     return paths
 
 # def algo(state, eiwit, depth, maxscore, direction, paths, pq):
 #     neighbour_pos = (state[-1][0] + offsets[direction][0], 
-#                     state[-1][1] + offsets[direction][1])
+#                         state[-1][1] + offsets[direction][1])
 #     child = copy.deepcopy(state)
 #     if neighbour_pos not in child and child not in paths:
 #         child += [neighbour_pos]
-#         print("\nChild is:", child)
 #         aminoschecked = eiwit[:(len(state)+ 1)]
 #         childmatch = mapper(child, aminoschecked)
-#         print("Hpotentials[len(child) - 1] is:", hpotentials[len(child) - 1])
-#         print("Cpotentials[len(child) - 1] is:", cpotentials[len(child) - 1])
-#         h_value = -((hpotentials[len(child) - 1]) * 2)-((cpotentials[len(child) - 1]) * 2)
-#         print("H+Cvalue is:", h_value)
+#         if heuristic == "admissable":
+#             h_value = -((hpotentials[len(child) - 1]) * 2) - ((cpotentials[len(child) - 1]) * 5)
+#         if heuristic == "regular":
+#             h_value = -((hpotentials[len(child) - 1]) * ((depth + 1)/depth)) - ((cpotentials[len(child) - 1]) * ((depth + 1)/depth))
+#         if heuristic == "cyclebased":
+#             h_value = -((hpotentials[len(child) - 1]) * (-cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (-cyclevalue/depth))
+#         if heuristic == "cyclereducedbyfactor": 
+#             h_value = -((hpotentials[len(child) - 1]) * (-cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (-cyclevalue/depth)) * factor
 #         score = scoreH(childmatch)
-#         print("Score is:", score)
 #         priority = score + h_value
-#         print("Priority is:", priority)
-#         print("maxscoretervergelijk:", maxscore)
 #         if priority <= maxscore:
 #             pq.put(child, priority)
 #         if score < maxscore:
 #             maxscore = score
 #         if len(child) == depth:
 #             paths.append(child)
+        
 

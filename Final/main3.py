@@ -5,6 +5,7 @@ from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
 from classes_hattum import grid, protein
 from algorithms_hattum import greedy_lookahead
 from visualisation import Visualisation
+from algorithms_hattum.priority_miro import directions
 
 
 if __name__ == "__main__":
@@ -40,6 +41,7 @@ if __name__ == "__main__":
 
     option = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
     if option.lower() == "cyclefold" or option.upper() == "C":
+
         fold = CycleFold(eiwit)
         #fold.printDirections()
         scoreH = fold.score()
@@ -64,14 +66,19 @@ if __name__ == "__main__":
                 if depth > 2 and depth <= len(eiwit):
                     break
                 else:
-                    print("Depth between 3 and eiwit-length")
+                    print("Depth must be between 3 and eiwit-length")
         cyclefold = CycleFold(depth * "H")
         cyclevalue = cyclefold.score()
         fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
         #scoorders, scores = fold.scoorders()
         winner, scoreH = fold.score()
+        print("Winner is:", winner)
+        directs = directions(winner)
+        print("Directions are:", directs)
+
         visualisation = Visualisation(eiwit, scoreH, winner)
         visualisation.plot()
+        
         #visualisation.csv()
 
     elif option.lower() == "greedy_lookahead" or option.upper() == "G":

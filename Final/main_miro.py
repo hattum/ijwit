@@ -12,33 +12,40 @@ def main():
     3: PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP
     4: HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH
     5: PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP
-    6: CPPCHPPCHPPCPPHHHHHHCCPCHPPC PCHP PHPC
-    7: HCPH PCPH PCHC HPHP PPHP PPHP PPPH PC PH PPPHPHHHCCHCHCHCHH
-    8: HCPH PHPH CHHH HPCC PPHP PPHP PPPC PPPH PPPH PHHH HCHPH PHPHH
+    6: CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC
+    7: HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH
+    8: HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH
     9: exit program
     """)
 
     option2 = int(input("make an option: "))
     if option2 == 0:
         eiwit = "HHPHHHPH"
-        #eiwit = "CHHCHCHC"
-        #eiwit = "H" *20
+        heuristic = "admissable"
     elif option2 == 1:
         eiwit = "HHPHHHPHPHHHPH"
+        heuristic = "admissable"
     elif option2 == 2:
-        eiwit = "HPHPPHHPHPPHPHHPPHPH" #20
+        eiwit = "HPHPPHHPHPPHPHHPPHPH"
+        heuristic = "regular"
     elif option2 == 3:
-        eiwit = "PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP" #36
+        eiwit = "PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP"
+        heuristic = "cyclebased"
     elif option2 == 4:
-        eiwit = "HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH" #50
+        eiwit = "HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH"
+        heuristic = "cyclebased"
     elif option2 == 5:
         eiwit = "PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP"
+        heuristic = "regular"
     elif option2 == 6:
         eiwit = "CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC"
+        heuristic = "cyclebased"
     elif option2 == 7:
         eiwit = "HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH"
+        heuristic = "cyclereducedbyfactor"
     elif option2 == 8:
         eiwit = "HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH"
+        heuristic = "cyclebased"
     elif option2 != 9:
         print("You did not enter a valid number")
 
@@ -48,38 +55,24 @@ def main():
 
     option = input("Would you like to use cyclefold (C) or priority (P) or Hattum (H)?: ")
     if option.lower() == "cyclefold" or option.upper() == "C":
-        algorithm = "cyclefold"
-        fold = CycleFold(eiwit, algorithm)
-
-        #fold.plot()
-
+        #algorithm = "cyclefold"
+        #fold = CycleFold(eiwit, algorithm)
+        fold = CycleFold(eiwit)
         #fold.printDirections()
-
         scoreH = fold.score()
-        print("\nScoreH is:", scoreH)
-
         coordinates = fold.coord()
-        print("Coordinates are:", coordinates)
+        visualisation = Visualisation(eiwit, scoreH, coordinates)
+        visualisation.plot()
 
-        # visualisation = Visualisation(eiwit, scoreH, coordinates)
-        # visualisation.plot()
-        
-
-    # scoreHvar = fold.scoreHvar()
-    # print("\nScoreHvar is:", scoreHvar)
-
-    # scoreC = fold.scoreC()
-    # print("\nScoreC is:", scoreC)
-
-        
     elif option.lower() == "priority" or option.upper() == "P":
         algorithm = "priority"
-        print("""Depth info:
+        print("""\nDepth info: By setting a depth you can examine the proteine from the
+             first amino upto the set depth
              _______________________________
-             If you are a developer you can set a depth after you answered 'yes' (Y).
-             Otherwise just say 'no' (N).
+             Type 'no' (N) if you don't understand this depth option or if you just want to examine the whole proteine.
+             Type 'yes' (Y) if you want to set the depth.
              """)
-        option = input("Would you like to set a depth?: ")
+        option = input("\nWould you like to set a depth?: ")
         if option.lower() == "no" or option.upper() == "N":
             depth = len(eiwit)
         if option.lower() == "yes" or option.upper() == "Y":
@@ -89,58 +82,17 @@ def main():
                     break
                 else:
                     print("Depth between 3 and eiwit-length")
-        cyclefold = CycleFold(depth * "H", algorithm) #nieuw
-        cyclevalue = cyclefold.score()  #nieuw
-
-        # print("\nCyclevalue is:", cyclevalue)
-        #fold = PriorityFold(eiwit, algorithm, depth)
-        fold = PriorityFold(eiwit, algorithm, depth, cyclevalue)
-        
-        scoorders, scoreY = fold.score()
-        print("\nBestChilds are:", scoorders)
-        print("BestScore is:", scoreY)
-        print("\nCyclevalue is:", cyclevalue)
-
-        #winner, scoreH = fold.score()
-        #print("\nBestChild is:", winner)
-        #print("BestScore is:", scoreH)
-
-        #TODO: visualisation = Visualisation(title, scoreH, winner)
-        #? visualisation.plot()
+        cyclefold = CycleFold(depth * "H")
+        cyclevalue = cyclefold.score()
+        fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
+        #scoorders, scores = fold.scoorders()
+        winner, scoreH = fold.score()
+        visualisation = Visualisation(eiwit, scoreH, winner)
+        visualisation.plot()
+        #visualisation.csv()
   
 if __name__ == "__main__":
     main()
 
-    # print("\nCurrAmi: Richting")
-    # for tupler in range(len(directions2)):
-    #     print(directions2[tupler][0], ",", directions2[tupler][1])
-
-    #H_q = fold.makeH_q()
-
-    #H_lijst = fold.makeH_lijst()
-    #print("H_lijst is:", H_lijst)
-
-    #C_q = fold.makeC_q()
-
-    #C_lijst = fold.makeC_lijst()
-    #print("\nC_lijst is:", C_lijst)
-
-    # print("\nDirections2:")
-    # print(directions2)
-
-    # print("\nAmino_posities:")
-    # print(amino_path)
-
-    # print("\nPosition: Predecessor")
-    # for pos in predecessors:
-    #     print(pos, ":" , predecessors[pos])
-
-    # print("\nPositie: Amino")
-    # for amino in match:
-    #     print(amino, ":" , match[amino])
- 
-    # print("\nCurrPos: Richting")
-    # for pos in directions:
-    #     print(pos, ":" , directions[pos])
     
 

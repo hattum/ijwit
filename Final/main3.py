@@ -9,20 +9,20 @@ from visualisation import Visualisation
 
 if __name__ == "__main__":
     eiwitDict = {
-        '0':"HHPHHHPH",
-        '1':"HHPHHHPHPHHHPH",
-        '2':"HPHPPHHPHPPHPHHPPHPH",
-        '3':"PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP",
-        '4':"HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH",
-        '5':"PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP",
-        '6':"CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC",
-        '7':"HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH",
-        '8':"HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH",
+        '0':["HHPHHHPH", "admissable"],
+        '1':["HHPHHHPHPHHHPH", "admissable"],
+        '2':["HPHPPHHPHPPHPHHPPHPH", "regular"],
+        '3':["PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP", "cyclebased"],
+        '4':["HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH", "cyclebased"],
+        '5':["PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP", "regular"],
+        '6':["CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC", "cyclebased"],
+        '7':["HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH", "cyclereducedbyfactor"],
+        '8':["HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH", "cyclebased"]
     }
 
     print("eiwit-options:")
     for key, value in eiwitDict.items():
-        print(key,': ', value)
+        print(key,': ', value[0])
 
     # Choice menu for the different Protien
     option2 = input("make an option: ")
@@ -30,7 +30,8 @@ if __name__ == "__main__":
         if option2 == '9':
             exit()
         elif option2 in eiwitDict:
-            eiwit = eiwitDict[option2]
+            eiwit = eiwitDict[option2][0]
+            heuristic = eiwitDict[option2][1]
             break
         else:
             print("You did not enter a valid number")
@@ -39,20 +40,22 @@ if __name__ == "__main__":
 
     option = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
     if option.lower() == "cyclefold" or option.upper() == "C":
-        algorithm = "cyclefold"
-        fold = CycleFold(eiwit, algorithm)
-        fold.plot()
-        fold.printDirections()
+        fold = CycleFold(eiwit)
+        #fold.printDirections()
         scoreH = fold.score()
-        print("\nScoreH is:", scoreH)
+        coordinates = fold.coord()
+        visualisation = Visualisation(eiwit, scoreH, coordinates)
+        visualisation.plot()
+
     elif option.lower() == "priority" or option.upper() == "P":
         algorithm = "priority"
-        print("""Depth info:
+        print("""\nDepth info: By setting a depth you can examine the proteine from the
+             first amino upto the set depth
              _______________________________
-             If you are a developer you can set a depth after you answered 'yes' (Y).
-             Otherwise just say 'no' (N).
+             Type 'no' (N) if you don't understand this depth option or if you just want to examine the whole proteine.
+             Type 'yes' (Y) if you want to set the depth.
              """)
-        option = input("Would you like to set a depth?: ")
+        option = input("\nWould you like to set a depth?: ")
         if option.lower() == "no" or option.upper() == "N":
             depth = len(eiwit)
         if option.lower() == "yes" or option.upper() == "Y":
@@ -62,11 +65,14 @@ if __name__ == "__main__":
                     break
                 else:
                     print("Depth between 3 and eiwit-length")
-
-        fold = PriorityFold(eiwit, algorithm, depth)
+        cyclefold = CycleFold(depth * "H")
+        cyclevalue = cyclefold.score()
+        fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
+        #scoorders, scores = fold.scoorders()
         winner, scoreH = fold.score()
-        print("\nBestChild is:", winner)
-        print("BestScore is:", scoreH)
+        visualisation = Visualisation(eiwit, scoreH, winner)
+        visualisation.plot()
+        #visualisation.csv()
 
     elif option.lower() == "greedy_lookahead" or option.upper() == "G":
         # Lookahead count

@@ -161,6 +161,8 @@ def priority_miro(depth, eiwit, cyclevalue, heuristic):
                             pq.put(child, priority)
                         if score < maxscore:
                             maxscore = score
+                        # if len(child) == depth or len(child) == depth - countinvalids(eiwit, depth): #nieuw
+                        #     paths.append(child)
                         if len(child) == depth:
                             paths.append(child)
                         
@@ -193,6 +195,8 @@ def priority_miro(depth, eiwit, cyclevalue, heuristic):
                             pq.put(child, priority)
                         if score < maxscore:
                             maxscore = score
+                        # if len(child) == depth or len(child) == depth - countinvalids(eiwit, depth): #nieuw
+                        #     paths.append(child)
                         if len(child) == depth:
                             paths.append(child)
                         

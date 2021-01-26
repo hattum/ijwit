@@ -1,5 +1,6 @@
 # imports
 from copy import deepcopy
+import time
   
 
 class Greedy_lookahead:
@@ -27,8 +28,9 @@ class Greedy_lookahead:
         self.grid.performMove(self.grid.checkPossibleMoves()[0], self.protein.code[0])
         self.allMoves.append(self.grid.checkPossibleMoves()[3])
         self.grid.performMove(self.grid.checkPossibleMoves()[3], self.protein.code[1])
-
+    
     def outer_loop(self):
+        start = time.time()
         # perform recursion_01 as long as there are amino acids to fold 
         while self.protein.length > self.grid.totalMoves:
             grid = deepcopy(self.grid)
@@ -40,9 +42,10 @@ class Greedy_lookahead:
             self.minimalPerformedMove = None
             self.minimalScore = 0
             print(str(self.grid.totalMoves) + " of the " + str(self.protein.length) + " aminoacid are already placed in the grid")
-
+        end = time.time()
+        print("The folding of the protein can be found in the new created png file")
         print("The score of the folding is: " + str(self.grid.score()))
-        self.grid.printGrid()
+        print("The algorithme has taken: " + str(end-start) + " seconds")
         print("total states = " + str(self.states))
     
     

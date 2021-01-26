@@ -47,8 +47,14 @@ class Grid:
                 if self.content[x][y][1] == 'C' and self.content[x][y+1][1] == 'H':
                     if self.content[x][y][0] != self.content[x][y+1][0]+1 and self.content[x][y][0] != self.content[x][y+1][0]-1:
                         score = score-1
+                if self.content[x][y][1] == 'C' and self.content[x+1][y][1] == 'H':
+                    if self.content[x][y][0] != self.content[x+1][y][0]+1 and self.content[x][y][0] != self.content[x+1][y][0]-1:
+                        score = score-1
                 if self.content[x][y][1] == 'H' and self.content[x][y+1][1] == 'C':
                     if self.content[x][y][0] != self.content[x][y+1][0]+1 and self.content[x][y][0] != self.content[x][y+1][0]-1:
+                        score = score-1
+                if self.content[x][y][1] == 'H' and self.content[x+1][y][1] == 'C':
+                    if self.content[x][y][0] != self.content[x+1][y][0]+1 and self.content[x][y][0] != self.content[x+1][y][0]-1:
                         score = score-1
 
         return score

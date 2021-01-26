@@ -38,6 +38,7 @@ if __name__ == "__main__":
 
 
     option = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
+    
     if option.lower() == "cyclefold" or option.upper() == "C":
         algorithm = "cyclefold"
         fold = CycleFold(eiwit, algorithm)

@@ -159,13 +159,7 @@ def algo(state, eiwit, depth, maxscore, direction, paths, pq, hpotentials, cpote
             paths.append(child)
 
 
-def priority_miro(depth, eiwit, cyclevalue, heuristic):
-    hpotentials, cpotentials = potentials(eiwit, depth)
-    pq = PriorityQueue()
-    maxscore = 0
-    pq.put([(0,0),(-1,0)], 0)
-    paths = []
-
+def priority_miro(depth, eiwit, cyclevalue, heuristic, hpotentials, cpotentials, pq, maxscore, paths):
     while not pq.is_empty():
         priority, state = pq.get()
         if len(state) < depth:

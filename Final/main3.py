@@ -58,7 +58,7 @@ if __name__ == "__main__":
                 if depth > 2 and depth <= len(eiwit):
                     break
                 else:
-                    print("Depth must be between 3 and eiwit-length")
+                    print(f"Depth must be between 3 and {len(eiwit)}")
         
         # Make cyclevalue which is used in heuristics and related to depth/length
         cyclefold = CycleFold(depth * "H")

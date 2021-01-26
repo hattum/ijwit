@@ -2,57 +2,54 @@ import copy
 import itertools
 from classes_hattum.priorityqueue_miro import PriorityQueue
 from assets.helpers_miro import offsets
-from algorithms_hattum.cyclefold import cyclefold, mapper, scoreH
-#from algorithms_hattum.priority_miro import priority_miro, map, best_score
-from algorithms_hattum.priority_miro import priority_miro, map, best_scoorders
+from algorithms_hattum.cyclefold import cyclefold, mapper, scoreHC
+from algorithms_hattum.priority_miro import priority_miro, map, best_scoorders, best_score
 #from algorithms_hattum.priority_miro import Priority, map, best_score
 
 class Fold():
     """
     Parent Fold heeft 'eiwit' en 'algorithm' als attributen
     """
-    def __init__(self, eiwit, algorithm):
+    def __init__(self, eiwit):
         self.eiwit = eiwit
-        self.algorithm = algorithm
+        
         
 class PriorityFold(Fold):
     """
-    Child PriortyFold heeft 'depth' als attribuut. Elk listig pad uit listig 'paths' bestaat
-    uit getupelde coordinaten die algoritme 'priority' heeft gemaakt. Elk listig karakterspad uit
-    listig 'chpaths' bestaat uit tuples van een aminozuur met zijn gemapte getupelde coordinaten.
+    Child PriortyFold heeft 'depth' als attribuut. Elk lijst coordinaten uit lijst 'paths' bestaat
+    uit getupelde coordinaten die algoritme 'priority' heeft gemaakt. Elke lijst karakterspad uit
+    lijst 'pathsmatch' bestaat uit tuples van een aminozuur met zijn gemapte getupelde coordinaten.
     'Score' is een methode die de vouwing van het eiwit met de meeste bonds geeft.
     """
     # def __init__(self, eiwit, algorithm, depth):
-    def __init__(self, eiwit, algorithm, depth, cyclevalue):
-        super().__init__(eiwit, algorithm)
-        self.cyclevalue = cyclevalue
+    def __init__(self, eiwit, depth, cyclevalue, heuristic):
+        super().__init__(eiwit)
         self.depth = depth
-        self.paths = priority_miro(self.depth, self.eiwit, self.cyclevalue)
+        self.cyclevalue = cyclevalue
+        self.heuristic = heuristic
+        self.paths = priority_miro(self.depth, self.eiwit, self.cyclevalue, self.heuristic)
         #TODO: self.priority = Priority(self.depth, self.eiwit) #nieuw
         #TODO: self.paths = self.priority.paths #nieuw
-        self.chpaths = map(self.paths, self.eiwit)
+        self.pathsmatch = map(self.paths, self.eiwit)
 
     def score(self):
-        #return best_score(self.chpaths)
-        return best_scoorders(self.chpaths)
+        return best_score(self.pathsmatch)
+
+    def scoorders(self):
+        return best_scoorders(self.pathsmatch)
 
 class CycleFold(Fold):
     """
     De 'coordinates' (en overige attributen) van het kind CycleFold komen door middels het algoritme 'cyclefold'
     die het 'eiwit' als parameter neemt en/of zijn een mapping tussen de coordinaten en het eiwit.
     """
-    def __init__(self, eiwit, algorithm):
-        super().__init__(eiwit, algorithm)
-        self.coordinates, self.predecessors, self.directions, self.directions2 = cyclefold(self.eiwit)
-        self.match, self.matcher, self.graph = mapper(self.coordinates, self.eiwit)
+    def __init__(self, eiwit):
+        super().__init__(eiwit)
+        self.coordinates, self.directions2 = cyclefold(self.eiwit)
+        self.matcher = mapper(self.coordinates, self.eiwit)
 
     def score(self):
-        return scoreH(self.match, self.predecessors)
-
-    def plot(self):
-        print("\nRepresentatie:")
-        for row in self.graph:
-            print(row)
+        return scoreHC(self.matcher)
 
     def printDirections(self):
         print("\nCurrAmi: Richting")

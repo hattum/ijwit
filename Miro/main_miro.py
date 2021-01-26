@@ -55,6 +55,8 @@ def main():
 
     option = input("Would you like to use cyclefold (C) or priority (P) or Hattum (H)?: ")
     if option.lower() == "cyclefold" or option.upper() == "C":
+        #algorithm = "cyclefold"
+        #fold = CycleFold(eiwit, algorithm)
         fold = CycleFold(eiwit)
         #fold.printDirections()
         scoreH = fold.score()

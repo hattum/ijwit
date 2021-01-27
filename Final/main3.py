@@ -3,7 +3,7 @@ from assets.helpers_miro import offsets, eiwitDict
 from classes_hattum.queue_miro import Queue
 from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
 from classes_hattum import grid, protein
-from algorithms_hattum import greedy_lookahead
+from algorithms_hattum import greedy_lookahead, random_valid
 from visualisation import Visualisation
 
 
@@ -29,7 +29,7 @@ if __name__ == "__main__":
             option = input("make an option: ")
 
 
-    choice = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
+    choice = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G) or random_valid (R)?: ")
     if choice.lower() == "cyclefold" or choice.upper() == "C":
         # Initialize the needed class for the algo
         fold = CycleFold(eiwit)

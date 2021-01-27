@@ -54,9 +54,6 @@ class Greedy_lookahead:
         recursion_01 tries to find all possible foldings of 
         the protein by looking a set #steps (depth) ahead.
         """
-        
-
-
         # print the amount of recursions for convenience purposes
         if (self.recursionAmount % 10000 ) == 0 and self.recursionAmount > 0:
             print("Recusion Functionis called: " + str(self.recursionAmount) + " times")
@@ -101,6 +98,7 @@ class Greedy_lookahead:
         i = 0
         for tupl in self.allMoves:
             temp.append((self.protein.code[i],tupl))
+            i = i + 1
 
         self.allMoves = temp
 

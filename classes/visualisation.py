@@ -6,7 +6,8 @@ import matplotlib.path as mpath
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import csv
-#from assets.helpers_miro import offsets
+from assets.helpers_miro import offsets
+
 
 class Visualisation():
     """
@@ -57,13 +58,7 @@ class Visualisation():
         Calculates the corresponding offsets to a fold.
         These will be used in the csv file.
         """
-        offsets = {          # offstes uiteindelijkverwijderen en dan iets van bovenstaande regel erin aub!
-                    "1": [0, 1],
-                    "-1": [0, -1],
-                    "2": [-1, 0],
-                    "-2": [1, 0]
-                }
-
+        
         coords = self.coordinates
 
         # loop over the coordinate list in order to calculte the corresponding offsets to a fold

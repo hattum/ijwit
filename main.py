@@ -1,12 +1,11 @@
 #imports
 from assets.helpers_miro import offsets, eiwitDict
-from classes_hattum.queue_miro import Queue
-# from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
-from classes_hattum.cyclefold import CycleFold
-from classes_hattum.priorityfold import PriorityFold
-from classes_hattum import grid, protein
-from algorithms_hattum import greedy_lookahead, random_valid
-from visualisation import Visualisation
+from classes.queue_miro import Queue
+from classes.cyclefold import CycleFold
+from classes.priorityfold import PriorityFold
+from classes import grid, protein
+from algorithms import greedy_lookahead, random_valid
+from classes.visualisation import Visualisation
 
 
 
@@ -38,15 +37,11 @@ if __name__ == "__main__":
         fold = CycleFold(eiwit)
         fold.run()
 
-        # Plot the folded protein in a grid after getting coordinates and scoreH
-        scoreH = fold.score()
+        # Variables for the plot
+        score = fold.score()
         coordinates = fold.coord()
-        print("Coordinates are:", coordinates)
-        print("Score is:", scoreH)
-        visualisation = Visualisation(eiwit, scoreH, coordinates)
-        visualisation.plot()
-        visualisation.directions()
-        visualisation.csv()
+        print("Score is:", score)
+
 
     elif choice.lower() == "priority" or choice.upper() == "P":
         algorithm = "priority"
@@ -74,15 +69,14 @@ if __name__ == "__main__":
         # Initialize the needed class for the algo
         fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
 
-        # Plot the folded protein in a grid after getting winner and scoreH
         fold.run()
-        winner, scoreH = fold.score()
-        print("Winner is:", winner)
-        print("A best score is:", scoreH)
-        visualisation = Visualisation(eiwit, scoreH, winner)
-        visualisation.plot()
-        visualisation.directions()
-        visualisation.csv()
+
+        # Variables for the plot
+        coordinates, score = fold.score()
+        print("A best score is:", score)
+
+        
+        
 
     elif choice.lower() == "greedy_lookahead" or choice.upper() == "G":
         # Lookahead count
@@ -94,14 +88,11 @@ if __name__ == "__main__":
 
         # Performing the greedy algo with lookahead
         algo = greedy_lookahead.Greedy_lookahead(protein, grid, steps)
-        
-        # Plot the folded protein in a grid
-        visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
-        visualisation.plot()
 
-        # Making de csv output file
-        visualisation.directions()
-        visualisation.csv()
+        # Variables for the plot
+        score = grid.score()
+        coordinates = algo.allMoves
+
 
     elif choice.lower() == "random_valid" or choice.upper() == "R":
         # Initializing the needed classes for the algo
@@ -112,11 +103,17 @@ if __name__ == "__main__":
         # Performing the random algo 'tries' times
         algo = random_valid.Random_valid(grid, protein, tries)
 
-        # Plot the folded protein in a grid
-        visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
-        visualisation.plot()
+        # Variables for the plot
+        score = grid.score()
+        coordinates = algo.allMoves
 
-        # Making de csv output file
-        visualisation.directions()
-        visualisation.csv()
+ 
+    # Plot the folded protein in a grid
+    visualisation = Visualisation(eiwit, score, coordinates)
+    visualisation.plot()
+
+    # Making de csv output file
+    visualisation.directions()
+    visualisation.csv()
+
     

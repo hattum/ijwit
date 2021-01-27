@@ -63,8 +63,6 @@ class Queue:
         self._data.clear()
 
     def is_empty(self):
-        #return len(self._data) == 0
-        #return self._data == []
         return not self._data
 
     def description(self):
@@ -75,18 +73,3 @@ class Queue:
     def __str__(self):
         return f"{self._data}"
 
-# def main():
-#     q = Queue()          # create new queue
-#     q.enqueue(3)         # add number 3 to back of queue
-#     q.enqueue(2)         # add number 2 to back of queue
-#     q.enqueue(1)         # add number 1 to back of queue
-#     print(q.dequeue())   # prints first number "in", so 3
-#     print(q.peek())
-#     q.empty_var()
-#     print(q.size())
-#     print(q.description())
-#     print(q)
-
-
-# if __name__ == "__main__":
-#     main()

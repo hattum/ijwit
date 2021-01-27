@@ -10,9 +10,6 @@ class PriorityQueue:
     def get(self):
         return heapq.heappop(self._elements)[1]
 
-    # def get(self):
-    #     return heapq.heappop(self._elements)
-
     def getpriority(self):
         return (self._elements)[0][0]
 
@@ -30,32 +27,3 @@ class PriorityQueue:
     def smallests(self, n): 
         self._elements = heapq.heapify(heapq.nsmallest(n, self._elements))
 
-
-
-
-def main():
-
-    pq = PriorityQueue()
-    print(pq)
-    print(pq.is_empty())
-
-    # item, priority
-    pq.put("whatever", 2)
-    pq.put("joehoe!", 1)
-    pq.put("sleeplekker", 3)
-
-    # print(pq)
-
-    # print(pq.getter())
-    # print(pq.get())
-    # print(pq.getter())
-    # print(pq.get())
-    # print(pq.getter())
-    # print(pq.get())
-
-
-    print(pq.smallests(2))
-
-
-if __name__ == "__main__":
-    main()

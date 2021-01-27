@@ -1,7 +1,6 @@
 import copy
 import itertools
 from assets.helpers_miro import offsets
-#from algorithms_hattum.cycle_hulp import mapper, scoreHC
 
 
 class CycleFold():

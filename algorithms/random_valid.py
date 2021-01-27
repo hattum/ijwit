@@ -1,8 +1,6 @@
 from copy import deepcopy
 import random
 
-
-
 class Random_valid:
     def __init__(self, grid, protein, tries):
         self.protein = protein
@@ -36,6 +34,11 @@ class Random_valid:
                 self.globalscore = grid.score()
                 self.grid = grid
 
+    
+
     def print(self):
         print("The folding of the protein can be found in the new created png file")
         print("The score of the folding is: " + str(self.globalscore))
+
+                
+

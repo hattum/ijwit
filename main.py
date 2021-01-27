@@ -64,6 +64,7 @@ if __name__ == "__main__":
         
         # Make cyclevalue which is used in heuristics and related to depth/length
         cyclefold = CycleFold(depth * "H")
+        cyclefold.run()
         cyclevalue = cyclefold.score()
 
         # Initialize the needed class for the algo

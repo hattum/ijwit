@@ -40,7 +40,7 @@ In totaal kunnen er 4 verschillende algoritmes toegepast worden om een beste vou
 * **Priority:**
 * **Greedy with look ahead:** Kijkt een gegeven aantal stappen vooruit en berekent van al die uitkomsten de beste score. De eerst volgende beste stap wordt dan uitgevoerd waarna vervolgens het zelfde proces wordt herhaald. Er wordt lokaal steeds een optimale keuze gemaakt.
 
-# File Navigatie
+## File Navigatie
 Alle algoritmes kunnen worden aangeroepen door main.py te runnen. Vervolgens wordt je door middel van vragen in de terminal door een keuzemenu heen genomen waar aangegeven kan worden welk algoritme je wilt gebruiken, en welke eventuele diepte(look ahead) je wilt meegeven.
 
 De stabielst gevonden manier om het eiwit te vouwen wordt uiteindelijk geplot in een Visualisation.png bestand. De stapsgewijze vouwingen kunnen worden ingekeken in Visualisation.csv.

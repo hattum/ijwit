@@ -1,5 +1,5 @@
 #imports
-from assets.helpers_miro import offsets
+from assets.helpers_miro import offsets, eiwitDict
 from classes_hattum.queue_miro import Queue
 from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
 from classes_hattum import grid, protein
@@ -9,47 +9,39 @@ from visualisation import Visualisation
 
 
 if __name__ == "__main__":
-    eiwitDict = {
-        '0':["HHPHHHPH", "admissable"],
-        '1':["HHPHHHPHPHHHPH", "admissable"],
-        '2':["HPHPPHHPHPPHPHHPPHPH", "regular"],
-        '3':["PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP", "cyclebased"],
-        '4':["HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH", "cyclebased"],
-        '5':["PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP", "regular"],
-        '6':["CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC", "cyclebased"],
-        '7':["HCPHPCPHPCHCHPHPPPHPPPHPPPPHPCPHPPPHPHHHCCHCHCHCHH", "cyclereducedbyfactor"],
-        '8':["HCPHPHPHCHHHHPCCPPHPPPHPPPPCPPPHPPPHPHHHHCHPHPHPHH", "cyclebased"]
-    }
 
+    # print eiwit-options
     print("eiwit-options:")
     for key, value in eiwitDict.items():
         print(key,': ', value[0])
 
-    # Choice menu for the different Protien
-    option2 = input("make an option: ")
+    # Get choices from the user regarding eiwit-options and algorithm
+    option = input("make an option: ")
     while True:
-        if option2 == '9':
+        if option == '9':
             exit()
-        elif option2 in eiwitDict:
-            eiwit = eiwitDict[option2][0]
-            heuristic = eiwitDict[option2][1]
+        elif option in eiwitDict:
+            eiwit = eiwitDict[option][0]
+            heuristic = eiwitDict[option][1]
             break
         else:
             print("You did not enter a valid number")
-            option2 = input("make an option: ")
+            option = input("make an option: ")
 
 
-    option = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
-    if option.lower() == "cyclefold" or option.upper() == "C":
-
+    choice = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
+    if choice.lower() == "cyclefold" or choice.upper() == "C":
+        # Initialize the needed class for the algo
         fold = CycleFold(eiwit)
-        #fold.printDirections()
+
+        # Plot the folded protein in a grid after getting coordinates and scoreH
         scoreH = fold.score()
         coordinates = fold.coord()
         visualisation = Visualisation(eiwit, scoreH, coordinates)
         visualisation.plot()
+        visualisation.csv()
 
-    elif option.lower() == "priority" or option.upper() == "P":
+    elif choice.lower() == "priority" or choice.upper() == "P":
         algorithm = "priority"
         print("""\nDepth info: By setting a depth you can examine the proteine from the
              first amino upto the set depth
@@ -66,22 +58,22 @@ if __name__ == "__main__":
                 if depth > 2 and depth <= len(eiwit):
                     break
                 else:
-                    print("Depth must be between 3 and eiwit-length")
+                    print(f"Depth must be between 3 and {len(eiwit)}")
+        
+        # Make cyclevalue which is used in heuristics and related to depth/length
         cyclefold = CycleFold(depth * "H")
         cyclevalue = cyclefold.score()
-        fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
-        #scoorders, scores = fold.scoorders()
-        winner, scoreH = fold.score()
-        print("Winner is:", winner)
-        directs = directions(winner)
-        print("Directions are:", directs)
 
+        # Initialize the needed class for the algo
+        fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
+
+        # Plot the folded protein in a grid after getting winner and scoreH
+        winner, scoreH = fold.score()
         visualisation = Visualisation(eiwit, scoreH, winner)
         visualisation.plot()
-        
-        #visualisation.csv()
+        visualisation.csv()
 
-    elif option.lower() == "greedy_lookahead" or option.upper() == "G":
+    elif choice.lower() == "greedy_lookahead" or choice.upper() == "G":
         # Lookahead count
         steps = int(input("How for would you like to lookahead: "))
 
@@ -95,6 +87,15 @@ if __name__ == "__main__":
         # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
-        visualisation.directions()
+        visualisation.csv()
+
+    elif choice.lower() == "random_valid" or choice.upper() == "R":
+        protein = protein.Protein(eiwit)
+        grid = grid.Grid(protein.length) 
+
+        tries = int(input("How many times would you like to try to find the best random solution: "))
+        algo = random_valid.Random_valid(grid, protein, tries)
+        visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
+        visualisation.plot()
         visualisation.csv()
     

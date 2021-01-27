@@ -6,8 +6,11 @@ import matplotlib.path as mpath
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 import csv
+<<<<<<< HEAD:classes/visualisation.py
 from assets.helpers_miro import offsets
 
+=======
+>>>>>>> 0be094cca7271992b2eb99c888e1f3f44d799ffc:Final/visualisation.py
 
 class Visualisation():
     """
@@ -45,7 +48,6 @@ class Visualisation():
         line, = ax.plot(x, y, 'go-', color='grey')
 
         # other settings for the graph
-        # plt.legend()
         ax.grid()
         ax.axis('equal')
         plt.title(f'Protein: {self.title}\n Score: {self.score}')
@@ -58,7 +60,17 @@ class Visualisation():
         Calculates the corresponding offsets to a fold.
         These will be used in the csv file.
         """
+<<<<<<< HEAD:classes/visualisation.py
         
+=======
+        offsets = {          
+                    "1": [0, 1],
+                    "-1": [0, -1],
+                    "2": [-1, 0],
+                    "-2": [1, 0]
+                }
+
+>>>>>>> 0be094cca7271992b2eb99c888e1f3f44d799ffc:Final/visualisation.py
         coords = self.coordinates
 
         # loop over the coordinate list in order to calculte the corresponding offsets to a fold
@@ -80,7 +92,7 @@ class Visualisation():
         with open('Visualisation.csv', 'w', newline='') as file:
             writer = csv.writer(file)
 
-            # write the headere
+            # write the header
             writer.writerow(["Amino", "Fold"])
 
             # write the amino acids with their corresponding offset

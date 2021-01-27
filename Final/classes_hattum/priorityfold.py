@@ -1,7 +1,73 @@
 import copy
-from assets.helpers_miro import offsets
 from classes_hattum.priorityqueue_miro import PriorityQueue
+from assets.helpers_miro import offsets
+#from algorithms_hattum.priority_hulp import best_score, potentials, map, mapper, is_symm, get_heuristic, scoreH
 
+
+class PriorityFold():
+    """
+    Initialize class PriorityFold with selected eiwit from the UI.
+    Depth is either get from the UI or otherwise depth equals to the length of the proteine
+    The other attributes you get for free
+    """
+
+    def __init__(self, eiwit, depth, cyclevalue, heuristic):
+        self.eiwit = eiwit
+        self.depth = depth
+        self.cyclevalue = cyclevalue
+        self.heuristic = heuristic
+        self.hpotentials, self.cpotentials = potentials(self.eiwit, self.depth) #nieuw
+        self.pq = PriorityQueue()
+        self.pq.put([(0,0),(-1,0)], 0)
+        self.maxscore = 0
+        self.paths = []
+        
+    def folder(self, state, direction):
+        """
+        make a child from the state of the unfolding proteine with the given direction, 
+        compare the created priority of the child to the maxscore within the family,
+        put the child back into the family when it has potential to transcend the maxscore
+        """
+        child = copy.deepcopy(state)
+        neighbour_pos = (state[-1][0] + offsets[direction][0], 
+                                state[-1][1] + offsets[direction][1])
+        if neighbour_pos not in child and child not in self.paths:
+            child += [neighbour_pos]
+            aminoschecked = self.eiwit[:(len(state)+ 1)]
+            childmatch = mapper(child, aminoschecked)
+            h_value = get_heuristic(self.eiwit, state, self.hpotentials, self.cpotentials, self.depth, self.cyclevalue, self.heuristic)
+            score = scoreH(childmatch)
+            priority = score + h_value
+            if priority <= self.maxscore:
+                self.pq.put(child, priority)
+            print("Pending maxscore is:", self.maxscore)
+            if score < self.maxscore:
+                self.maxscore = score
+            if len(child) == self.depth:
+                self.paths.append(child)
+
+    def run(self):
+        """
+        keep on making children and accepting them in case they are strong,
+        check symmetry in order to reduce the statespace
+        """
+        while not self.pq.is_empty():
+            state = self.pq.get()
+            if len(state) < self.depth:
+                if is_symm(state):
+                    for direction in ["2", "1"]:
+                        self.folder(state, direction)
+                else:
+                    for direction in ["2", "1", "-2", "-1"]:
+                        self.folder(state, direction)
+        return self.paths
+
+    def score(self):
+        """
+        make match among all possible paths and the proteine and return winner, best_score
+        """
+        pathsmatch = map(self.paths, self.eiwit)
+        return best_score(pathsmatch)
 
 def is_symm(state):
     """
@@ -117,87 +183,4 @@ def get_heuristic(eiwit, child, hpotentials, cpotentials, depth, cyclevalue, heu
     if heuristic == "cyclereducedbyfactor":
         number = factor(eiwit, depth)
         return -((hpotentials[len(child) - 1]) * (-cyclevalue/depth)) - ((cpotentials[len(child) - 1]) * (-cyclevalue/depth)) * number
-
-
-# def folder(depth, eiwit, paths, state, direction, cyclevalue, heuristic, hpotentials, cpotentials, pq, maxscore):
-#     """
-#     unfolds the current state of the proteine one step
-#     """
-#     child = copy.deepcopy(state)
-#     neighbour_pos = (state[-1][0] + offsets[direction][0], 
-#                             state[-1][1] + offsets[direction][1])
-#     if neighbour_pos not in child and child not in paths:
-#         child += [neighbour_pos]
-#         aminoschecked = eiwit[:(len(state)+ 1)]
-#         childmatch = mapper(child, aminoschecked)
-#         h_value = get_heuristic(eiwit, state, hpotentials, cpotentials, depth, cyclevalue, heuristic)
-#         score = scoreH(childmatch)
-#         priority = score + h_value
-#         if priority <= maxscore:
-#             pq.put(child, priority)
-#         if score < maxscore:
-#             maxscore = score
-#         if len(child) == depth:
-#             paths.append(child)
-#     #return paths??
-
-def priority_miro(depth, eiwit, cyclevalue, heuristic, hpotentials, cpotentials, pq, maxscore, paths):
-    """
-    keep on making children from every state of the family and accept the children only
-    if they could be able to transcend the maxscore so far in the family
-    """
-    while not pq.is_empty():
-        state = pq.get()
-        if len(state) < depth:
-            if is_symm(state):
-                for direction in ["2", "1"]:
-                    #TODO: folder(depth, eiwit, paths, state, direction, cyclevalue, heuristic, hpotentials, cpotentials, pq, maxscore)
-                    neighbour_pos = (state[-1][0] + offsets[direction][0], 
-                        state[-1][1] + offsets[direction][1])
-                    child = copy.deepcopy(state)
-                    if neighbour_pos not in child and child not in paths:
-                        child += [neighbour_pos]
-                        aminoschecked = eiwit[:(len(state)+ 1)]
-                        childmatch = mapper(child, aminoschecked)
-                        h_value = get_heuristic(eiwit, state, hpotentials, cpotentials, depth, cyclevalue, heuristic)
-                        score = scoreH(childmatch)
-                        priority = score + h_value
-                        if priority <= maxscore:
-                            pq.put(child, priority)
-                        if score < maxscore:
-                            maxscore = score
-                        if len(child) == depth:
-                            paths.append(child)
-                        
-
-            else:
-                for direction in ["2", "1", "-2", "-1"]:
-                    #TODO:folder(depth, eiwit, paths, state, direction, cyclevalue, heuristic, hpotentials, cpotentials, pq, maxscore)
-                    neighbour_pos = (state[-1][0] + offsets[direction][0], 
-                        state[-1][1] + offsets[direction][1])
-                    child = copy.deepcopy(state)
-                    if neighbour_pos not in child and child not in paths:
-                        child += [neighbour_pos]
-                        print("\nChild is:", child)
-                        aminoschecked = eiwit[:(len(state)+ 1)]
-                        childmatch = mapper(child, aminoschecked)
-                        h_value = get_heuristic(eiwit, state, hpotentials, cpotentials, depth, cyclevalue, heuristic)
-                        score = scoreH(childmatch)
-                        priority = score + h_value
-                        if priority <= maxscore:
-                            pq.put(child, priority)
-                        if score < maxscore:
-                            maxscore = score
-                        if len(child) == depth:
-                            paths.append(child)
-                        
-
-    #print(f"\nPaths with depth{depth} are:", paths)
-    #print(f"\nLengthPaths with depth{depth} is:", len(paths))
-    #paths = paden
-    return paths
-    
-
-
-        
 

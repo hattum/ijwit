@@ -35,5 +35,32 @@ def printDirections(self):
         for tupler in range(len(self.directions2)):
             print(self.directions2[tupler][0], ",", self.directions2[tupler][1])
 
+# def directions2(coords):
+#     for i in range(len(coords) - 1):
+#             for direction in offsets:
+#                 if coords[i+1][1] == (coords[i][1][0] + offsets[direction][0], coords[i][1][1] + offsets[direction][1]):
 
+#                     # append these calculated offsets to self.csv_list
+#                     csv_list.append((coords[i][0], direction))
+#         csv_list.append((coords[-1][0], "0"))
+#         print(f"Directions are: {csv_list}")
+
+# def csv(self):
+#         """
+#         Makes the required csv file for visualisation purposes.
+#         """
+#         # open a csv file
+#         with open('Visualisation.csv', 'w', newline='') as file:
+#             writer = csv.writer(file)
+
+#             # write the headere
+#             writer.writerow(["Amino", "Fold"])
+
+#             # write the amino acids with their corresponding offset
+#             for tuple_ in csv_list:
+#                 writer.writerow(tuple_)
+
+#             # write the footer
+#             writer.writerow(["Score:", self.score])
+  
     

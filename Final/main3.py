@@ -1,7 +1,9 @@
 #imports
 from assets.helpers_miro import offsets, eiwitDict
 from classes_hattum.queue_miro import Queue
-from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
+# from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
+from classes_hattum.cyclefold import CycleFold
+from classes_hattum.priorityfold import PriorityFold
 from classes_hattum import grid, protein
 from algorithms_hattum import greedy_lookahead
 from visualisation import Visualisation
@@ -31,12 +33,16 @@ if __name__ == "__main__":
 
     choice = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
     if choice.lower() == "cyclefold" or choice.upper() == "C":
+
         # Initialize the needed class for the algo
         fold = CycleFold(eiwit)
+        fold.run()
 
         # Plot the folded protein in a grid after getting coordinates and scoreH
         scoreH = fold.score()
         coordinates = fold.coord()
+        print("Coordinates are:", coordinates)
+        print("Score is:", scoreH)
         visualisation = Visualisation(eiwit, scoreH, coordinates)
         visualisation.plot()
         visualisation.csv()
@@ -68,7 +74,10 @@ if __name__ == "__main__":
         fold = PriorityFold(eiwit, depth, cyclevalue, heuristic)
 
         # Plot the folded protein in a grid after getting winner and scoreH
+        fold.run()
         winner, scoreH = fold.score()
+        print("Winner is:", winner)
+        print("A best score is:", scoreH)
         visualisation = Visualisation(eiwit, scoreH, winner)
         visualisation.plot()
         visualisation.csv()

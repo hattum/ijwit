@@ -2,62 +2,48 @@ import itertools
 from assets.helpers_miro import offsets
 from classes_hattum.queue_miro import Queue
 
-"""
-'Cyclefold' vouwt een 'eiwit' rechtsom en geeft een lijst van 'coords'.
-'Mapper' mapt de 'coords' met het 'eiwit' en geeft lijst 'matcher'.
-'ScoreHC' geeft de score van de vouwing.
-"""
 
-def cyclefold(eiwit):
-        directs = ["1", "-2", "-1", "2"]
-        directions_cycle = itertools.cycle(directs)
-        predecessors= {(0,0): None, (-1,0): (0,0)}
-        directions = {(0,0): "2"}
-        directions2 = [(eiwit[0], "2")]
-        starter_amino = eiwit[1]
-        neighbour_pos = (-1,0)
-        coords = [(0,0),(-1,0)]
+def cyclefold(eiwit, coords, directions_cycle):
 
-        for i in range(2, len(eiwit)):
-            direction = next(directions_cycle)
-            next_amino = eiwit[i]
-            neighbour = (neighbour_pos[0] + offsets[direction][0], 
-                        neighbour_pos[1] + offsets[direction][1])
-            if neighbour not in directions:
-                directions2.append((starter_amino, direction))
-                directions[neighbour_pos] = direction
-                predecessors[neighbour] = neighbour_pos
-                starter_amino = next_amino
-                neighbour_pos = neighbour
-                coords.append(neighbour_pos)
-            elif neighbour in directions:
-                while neighbour in directions:
-                    direction = next(directions_cycle)
-                    direction = next(directions_cycle)
-                    direction = next(directions_cycle)
-                    directions[neighbour_pos] = direction
-                    neighbour = (neighbour_pos[0] + offsets[direction][0], 
-                                neighbour_pos[1] + offsets[direction][1])
-                predecessors[neighbour] = neighbour_pos
-                directions2.append((starter_amino, direction))
-                directions[neighbour] = direction
-                starter_amino = next_amino
-                neighbour_pos = neighbour
-                coords.append(neighbour_pos)
-        directions2.append((next_amino, "0"))
-        return coords, directions2
+    """
+    'Cyclefold' vouwt een 'eiwit' rechtsom en geeft een lijst van 'coords'.
+    """
+    for i in range(2, len(eiwit)):
+        direction = next(directions_cycle)
+        neighbour = (coords[-1][0] + offsets[direction][0], 
+                    coords[-1][1] + offsets[direction][1])
+        if neighbour not in coords:
+            neighbour_pos = neighbour
+            coords.append(neighbour_pos)
+        elif neighbour in coords:
+            while neighbour in coords:
+                direction = next(directions_cycle)
+                direction = next(directions_cycle)
+                direction = next(directions_cycle)
+                neighbour = (neighbour_pos[0] + offsets[direction][0], 
+                            neighbour_pos[1] + offsets[direction][1])
+            neighbour_pos = neighbour
+            coords.append(neighbour_pos)
+    return coords
 
 
 def mapper(coords, eiwit):
-        matcher = []
-        for element in zip(coords, eiwit):
-            pos = element[0]
-            amino = element[1]
-            matcher.append((amino, pos))
-        return matcher
+    """
+    'Mapper' mapt de 'coords' met het 'eiwit' en geeft lijst 'matcher
+    """
+
+    matcher = []
+    for element in zip(coords, eiwit):
+        pos = element[0]
+        amino = element[1]
+        matcher.append((amino, pos))
+    return matcher
 
 
 def scoreHC(child):
+    """
+    'ScoreHC' geeft de score van de vouwing.
+    """
     scoreH = 0
     scoreC = 0
     for i in range(len(child)):

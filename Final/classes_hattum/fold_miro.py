@@ -3,13 +3,12 @@ import itertools
 from classes_hattum.priorityqueue_miro import PriorityQueue
 from assets.helpers_miro import offsets
 from algorithms_hattum.cyclefold import cyclefold, mapper, scoreHC
-from algorithms_hattum.priority_miro import priority_miro, map, best_scoorders, best_score, potentials
-#from algorithms_hattum.priority_miro import Priority, map, best_score
+from algorithms_hattum.priority_miro import priority_miro, best_score, potentials, map
 from classes_hattum.priorityqueue_miro import PriorityQueue
 
 class Fold():
     """
-    Parent Fold heeft 'eiwit' en 'algorithm' als attributen
+    Parent Fold heeft 'eiwit' als attribuut
     """
     def __init__(self, eiwit):
         self.eiwit = eiwit
@@ -39,8 +38,6 @@ class PriorityFold(Fold):
     def score(self):
         return best_score(self.pathsmatch)
 
-    def scoorders(self):
-        return best_scoorders(self.pathsmatch)
 
 class CycleFold(Fold):
     """
@@ -49,16 +46,14 @@ class CycleFold(Fold):
     """
     def __init__(self, eiwit):
         super().__init__(eiwit)
-        self.coordinates, self.directions2 = cyclefold(self.eiwit)
+        self.coords = [(0,0),(-1,0)]
+        self.directs = ["1", "-2", "-1", "2"]
+        self.directions_cycle = itertools.cycle(self.directs)
+        self.coordinates = cyclefold(self.eiwit, self.coords, self.directions_cycle)
         self.matcher = mapper(self.coordinates, self.eiwit)
 
     def score(self):
         return scoreHC(self.matcher)
-
-    def printDirections(self):
-        print("\nCurrAmi: Richting")
-        for tupler in range(len(self.directions2)):
-            print(self.directions2[tupler][0], ",", self.directions2[tupler][1])
 
     def coord(self):
         return self.matcher

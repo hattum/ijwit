@@ -30,4 +30,10 @@ def printdirections(lijst):
 lijst = directions(coords)
 printdirections(lijst)
 
+def printDirections(self):
+        print("\nCurrAmi: Richting")
+        for tupler in range(len(self.directions2)):
+            print(self.directions2[tupler][0], ",", self.directions2[tupler][1])
+
+
     

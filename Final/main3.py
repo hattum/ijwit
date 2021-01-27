@@ -5,7 +5,7 @@ from classes_hattum.fold_miro import Fold, PriorityFold, CycleFold
 from classes_hattum import grid, protein
 from algorithms_hattum import greedy_lookahead
 from visualisation import Visualisation
-from algorithms_hattum.priority_miro import directions
+
 
 
 if __name__ == "__main__":

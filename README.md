@@ -35,10 +35,10 @@ Voorbeeld:
 
 ## Algoritmes
 In totaal kunnen er 4 verschillende algoritmes toegepast worden om een beste vouwing te vinden:
-* **Random:** Voor elk volgend aminozuur in de eiwitketen wordt een compleet willekeurige vouwing gekozen, rekening houdend met het feit dat vouwingen niet kruizen
+* **Random:** Voor elk volgend aminozuur in de eiwitketen wordt een compleet willekeurige vouwing gekozen, rekening houdend met het feit dat vouwingen niet kruizen.
 * **Cyclefold:** Het eiwit wordt als een spiraal om zijn eigen as gevouwen.
-* **Priority:**
 * **Greedy with look ahead:** Kijkt een gegeven aantal stappen vooruit en berekent van al die uitkomsten de beste score. De eerst volgende beste stap wordt dan uitgevoerd waarna vervolgens het zelfde proces wordt herhaald. Er wordt lokaal steeds een optimale keuze gemaakt.
+* **Priority:** Struint de hele statenpace af en maakt gebruik van heuristieken om de statenpace te prunen. De heuristieken ontlenen hun waarde aan de potentiële score die een nog aan te vouwen amino zou kunnen verkrijgen. De heuristieke waarde wordt opgeteld bij de score die de vouwing van het kind reeds heeft opgeleverd. Alleen kinderen die een hogere prioriteit (optelsom) hebben dan de maximale score die tot dusver gevonden is binnen de familie, worden (opnieuw) geaccepteerd in de priorityqueue en krijgen opnieuw een kans om mee te dingen naar het kampioenschap.
 
 ## File Navigatie
 Alle algoritmes kunnen worden aangeroepen door main.py te runnen. Vervolgens wordt je door middel van vragen in de terminal door een keuzemenu heen genomen waar aangegeven kan worden welk algoritme je wilt gebruiken, en welke eventuele diepte(look ahead) je wilt meegeven.

@@ -144,7 +144,7 @@ def get_heuristic(eiwit, child, hpotentials, cpotentials, depth, cyclevalue, heu
 def priority_miro(depth, eiwit, cyclevalue, heuristic, hpotentials, cpotentials, pq, maxscore, paths):
     """
     keep on making children from every state of the family and accept the children only
-    if they could still transcend the maxscore so far in the family
+    if they could be able to transcend the maxscore so far in the family
     """
     while not pq.is_empty():
         state = pq.get()

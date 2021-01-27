@@ -5,7 +5,7 @@ from classes_hattum.queue_miro import Queue
 from classes_hattum.cyclefold import CycleFold
 from classes_hattum.priorityfold import PriorityFold
 from classes_hattum import grid, protein
-from algorithms_hattum import greedy_lookahead
+from algorithms_hattum import greedy_lookahead, random_valid
 from visualisation import Visualisation
 
 
@@ -31,7 +31,7 @@ if __name__ == "__main__":
             option = input("make an option: ")
 
 
-    choice = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G)?: ")
+    choice = input("Would you like to use cyclefold (C) or priority (P) or Greedy_Lookahead (G) or random_valid (R)?: ")
     if choice.lower() == "cyclefold" or choice.upper() == "C":
 
         # Initialize the needed class for the algo
@@ -96,15 +96,25 @@ if __name__ == "__main__":
         # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
+
+        # Making de csv output file
+        visualisation.directions()
         visualisation.csv()
 
     elif choice.lower() == "random_valid" or choice.upper() == "R":
+        # Initializing the needed classes for the algo
         protein = protein.Protein(eiwit)
         grid = grid.Grid(protein.length) 
 
         tries = int(input("How many times would you like to try to find the best random solution: "))
+        # Performing the random algo 'tries' times
         algo = random_valid.Random_valid(grid, protein, tries)
+
+        # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
+
+        # Making de csv output file
+        visualisation.directions()
         visualisation.csv()
     

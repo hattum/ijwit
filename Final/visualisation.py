@@ -50,6 +50,8 @@ class Visualisation():
         plt.title(f'Protein: {self.title}\n Score: {self.score}')
         plt.savefig("Visualisation.png")
 
+        print(f"coordinates: {self.coordinates}")
+
     def directions(self):
         """
         Calculates the corresponding offsets to a fold.
@@ -61,6 +63,7 @@ class Visualisation():
                     "2": [-1, 0],
                     "-2": [1, 0]
                 }
+
         coords = self.coordinates
 
         # loop over the coordinate list in order to calculte the corresponding offsets to a fold
@@ -71,6 +74,7 @@ class Visualisation():
                     # append these calculated offsets to self.csv_list
                     self.csv_list.append((coords[i][0], direction))
         self.csv_list.append((coords[-1][0], "0"))
+        print(f"coordinates: {self.coordinates}")
         print(f"Directions are: {self.csv_list}")
 
     def csv(self):

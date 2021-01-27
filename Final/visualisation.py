@@ -74,7 +74,7 @@ class Visualisation():
                     # append these calculated offsets to self.csv_list
                     self.csv_list.append((coords[i][0], direction))
         self.csv_list.append((coords[-1][0], "0"))
-        print(f"coordinates: {self.coordinates}")
+        print(f"coordinates1: {self.coordinates}")
         print(f"Directions are: {self.csv_list}")
 
     def csv(self):
@@ -89,8 +89,8 @@ class Visualisation():
             writer.writerow(["Amino", "Fold"])
 
             # write the amino acids with their corresponding offset
-            for tuple_ in self.csv_list:
-                writer.writerow(tuple_)
+            for i in range(len(self.csv_list)):
+                writer.writerow([self.csv_list[i][0], self.csv_list[i][1]])
 
             # write the footer
             writer.writerow(["Score:", self.score])

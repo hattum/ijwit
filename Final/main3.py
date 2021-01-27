@@ -45,6 +45,7 @@ if __name__ == "__main__":
         print("Score is:", scoreH)
         visualisation = Visualisation(eiwit, scoreH, coordinates)
         visualisation.plot()
+        visualisation.directions()
         visualisation.csv()
 
     elif choice.lower() == "priority" or choice.upper() == "P":
@@ -80,6 +81,7 @@ if __name__ == "__main__":
         print("A best score is:", scoreH)
         visualisation = Visualisation(eiwit, scoreH, winner)
         visualisation.plot()
+        visualisation.directions()
         visualisation.csv()
 
     elif choice.lower() == "greedy_lookahead" or choice.upper() == "G":

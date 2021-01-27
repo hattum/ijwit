@@ -87,21 +87,25 @@ if __name__ == "__main__":
         # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
-<<<<<<< HEAD
 
         # Making de csv output file
         visualisation.directions()
-=======
         visualisation.csv()
 
     elif choice.lower() == "random_valid" or choice.upper() == "R":
+        # Initializing the needed classes for the algo
         protein = protein.Protein(eiwit)
         grid = grid.Grid(protein.length) 
 
         tries = int(input("How many times would you like to try to find the best random solution: "))
+        # Performing the random algo 'tries' times
         algo = random_valid.Random_valid(grid, protein, tries)
+
+        # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
->>>>>>> 40c567711b3a9e0cd57a6f843f0219361d4bf483
+
+        # Making de csv output file
+        visualisation.directions()
         visualisation.csv()
     

@@ -95,6 +95,8 @@ if __name__ == "__main__":
         # Plot the folded protein in a grid
         visualisation = Visualisation(eiwit, grid.score(), algo.allMoves)
         visualisation.plot()
+
+        # Making de csv output file
         visualisation.directions()
         visualisation.csv()
     

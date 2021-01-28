@@ -109,13 +109,17 @@ def scoreH(coordsmatch):
         current = coordsmatch[i][1]
         for j in range(i+2, len(coordsmatch)):
             next = coordsmatch[j][1]
-            if current[0] == next[0] and (current[1] == next[1] - 1 or current[1] == next[1] +1) and coordsmatch[i][0] == "H" and (coordsmatch[j][0] == "H" or coordsmatch[j][0] == "C"):
+            if current[0] == next[0] and (current[1] == next[1] - 1 or current[1] == next[1] +1) and coordsmatch[i][0] == "H" and coordsmatch[j][0] == "H":
+                scoreH += -1
+            elif current[0] == next[0] and (current[1] == next[1] - 1 or current[1] == next[1] +1) and coordsmatch[i][0] == "H" and coordsmatch[j][0] == "C":
                 scoreH += -1
             elif current[0] == next[0] and (current[1] == next[1] - 1 or current[1] == next[1] +1) and coordsmatch[i][0] == "C" and coordsmatch[j][0] == "C":
                 scoreC += -5
             elif current[0] == next[0] and (current[1] == next[1] - 1 or current[1] == next[1] +1) and coordsmatch[i][0] == "C" and coordsmatch[j][0] == "H":
                 scoreC += -1
-            elif current[1] == next[1] and (current[0] == next[0] - 1 or current[0] == next[0] +1) and coordsmatch[i][0] == "H" and (coordsmatch[j][0] == "H" or coordsmatch[j][0] == "C"):
+            elif current[1] == next[1] and (current[0] == next[0] - 1 or current[0] == next[0] +1) and coordsmatch[i][0] == "H" and coordsmatch[j][0] == "H":
+                scoreH += -1
+            elif current[1] == next[1] and (current[0] == next[0] - 1 or current[0] == next[0] +1) and coordsmatch[i][0] == "H" and coordsmatch[j][0] == "C":
                 scoreH += -1
             elif current[1] == next[1] and (current[0] == next[0] - 1 or current[0] == next[0] +1) and coordsmatch[i][0] == "C" and coordsmatch[j][0] == "C":
                 scoreC += -5

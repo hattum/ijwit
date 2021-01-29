@@ -1,4 +1,5 @@
 from copy import deepcopy
+import time
 import random
 
 class Random_valid:
@@ -15,6 +16,7 @@ class Random_valid:
         self.print()
 
     def perform(self):
+        start = time.time()
         for i in range(self.tries):
             grid = deepcopy(self.emptyGrid)
             protein = deepcopy(self.protein)
@@ -33,6 +35,8 @@ class Random_valid:
                 self.allMoves = allMoves
                 self.globalscore = grid.score()
                 self.grid = grid
+        end = time.time()
+        print("The algorithme has taken: " + str(end-start) + " seconds")
 
     
 

@@ -9,7 +9,7 @@ eiwitDict = {
         '0':["HHPHHHPH", "admissable"],
         '1':["HHPHHHPHPHHHPH", "admissable"],
         '2':["HPHPPHHPHPPHPHHPPHPH", "regular"],
-        '3':["PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP", "cyclebased"],
+        '3':["PPPHHPPHHPPPPPHHHHHHHPPHHPPPPHHPPHPP", "regular"],
         '4':["HHPHPHPHPHHHHPHPPPHPPPHPPPPHPPPHPPPHPHHHHPHPHPHPHH", "cyclebased"],
         '5':["PPCHHPPCHPPPPCHHHHCHHPPHHPPPPHHPPHPP", "regular"],
         '6':["CPPCHPPCHPPCPPHHHHHHCCPCHPPCPCHPPHPC", "cyclebased"],

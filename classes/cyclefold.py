@@ -5,8 +5,7 @@ from assets.helpers_miro import offsets
 
 class CycleFold():
     """
-    De 'coordinates' (en overige attributen) van het kind CycleFold komen door middels het algoritme 'cyclefold'
-    die het 'eiwit' als parameter neemt en/of zijn een mapping tussen de coordinaten en het eiwit.
+    Hardcode the first 2 coordinates when Initializing the class
     """
     def __init__(self, eiwit):
         self.eiwit = eiwit
@@ -17,7 +16,7 @@ class CycleFold():
 
     def cyclefolder(self):
         """
-        'Cyclefold' vouwt een 'eiwit' rechtsom en geeft een lijst van 'coords'.
+        'Cyclefold' folds the protein clockwise around his center.
         """
         for i in range(2, len(self.eiwit)):
             direction = next(self.directions_cycle)
